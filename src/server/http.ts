@@ -2,6 +2,7 @@
 import type { APIRoute } from 'astro';
 import { getSecret } from 'astro:env/server';
 import { DbNietIngesteld } from './db';
+import { laadEnv } from './env';
 import { toestaan } from './limiet';
 import { honeypotGevuld } from './valideer';
 
@@ -81,6 +82,7 @@ type Opties = {
 export function endpoint(o: Opties): APIRoute {
   return async ({ request, clientAddress }) => {
     try {
+      laadEnv();
       if (!zelfdeHerkomst(request)) return antwoord(403, { ok: false, fout: 'niet_toegestaan' });
       let socketIp: string | undefined;
       try { socketIp = clientAddress; } catch { /* geen adres beschikbaar */ }

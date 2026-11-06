@@ -12,12 +12,12 @@ const ENDPOINTS: Record<string, string> = {
   demo_aanvragen: '/api/demo/'
 };
 
-const post = (url: string, body: unknown) =>
+const post = (url: string, body: unknown, tijdslimiet = TIJDSLIMIET) =>
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-    signal: AbortSignal.timeout(TIJDSLIMIET)
+    signal: AbortSignal.timeout(tijdslimiet)
   });
 
 export async function checkRegio(vak: string, plaats: string): Promise<RegioStatus> {
@@ -38,4 +38,23 @@ export async function insert(table: string, row: Record<string, unknown>): Promi
     const r = await post(url, row);
     return r.ok;
   } catch { return false; }
+}
+
+export type SamBeurt = { van: 'klant' | 'sam'; tekst: string };
+export type SamAntwoord =
+  | { ok: true; bericht: string; afgerond: boolean; samenvatting: string[] }
+  | { ok: false; fout: 'te_veel' | 'druk' | 'niet_beschikbaar' };
+
+/** Vraagt Sam (een AI-model op de server) om het volgende bericht in het gesprek. */
+export async function samAntwoord(vak: string, beurten: SamBeurt[]): Promise<SamAntwoord> {
+  try {
+    const r = await post('/api/sam/', { vak, beurten }, 30_000);
+    const j = await r.json().catch(() => null);
+    if (r.ok && j?.ok && typeof j.bericht === 'string') {
+      return { ok: true, bericht: j.bericht, afgerond: j.afgerond === true, samenvatting: Array.isArray(j.samenvatting) ? j.samenvatting.filter((s: unknown) => typeof s === 'string') : [] };
+    }
+    if (r.status === 429) return { ok: false, fout: 'te_veel' };
+    if (j?.fout === 'druk') return { ok: false, fout: 'druk' };
+  } catch { /* netwerkfout of tijdslimiet */ }
+  return { ok: false, fout: 'niet_beschikbaar' };
 }

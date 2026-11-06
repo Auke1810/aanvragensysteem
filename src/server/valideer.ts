@@ -1,6 +1,7 @@
 // Invoercontrole aan de serverkant. De browser is nooit de enige controle.
 // Teksten worden bijgesneden op spaties, tellen in tekens (zoals CHAR_LENGTH in MySQL) en mogen geen stuurtekens bevatten.
 import { VAKKEN } from '../config';
+import { DEMO_VAKKEN, MAX_KLANT_BERICHTEN, MAX_TEKENS_KLANT, type Beurt } from '../lib/samVakken';
 
 export type Fouten = Record<string, string>;
 export type Uitkomst<T> = { ok: true; waarde: T } | { ok: false; fouten: Fouten };
@@ -129,4 +130,30 @@ export function valideerDemo(data: Record<string, unknown>): Uitkomst<Demo> {
   const m = mobiel(data, fouten);
   if (data.toestemming !== true) fouten.toestemming = 'verplicht';
   return klaar(fouten, { vak: v ?? '', mobiel: m ?? '' });
+}
+
+export type SamVerzoek = { vak: string; beurten: Beurt[] };
+/**
+ * Het gesprek met Sam zoals de browser het stuurt, zonder de vaste begroeting. Moet beginnen en eindigen met een bericht van de klant,
+ * en elkaar afwisselen. Spaties en regeleinden worden samengevoegd, stuurtekens zijn niet toegestaan.
+ */
+export function valideerSam(data: Record<string, unknown>): Uitkomst<SamVerzoek> {
+  const fouten: Fouten = {};
+  const v = keuze(data, 'vak', Object.keys(DEMO_VAKKEN), true, fouten);
+  const ruw = data.beurten;
+  const beurten: Beurt[] = [];
+  if (!Array.isArray(ruw) || ruw.length < 1 || ruw.length > 2 * MAX_KLANT_BERICHTEN - 1 || ruw.length % 2 === 0) {
+    fouten.beurten = 'lengte';
+  } else {
+    for (let i = 0; i < ruw.length; i++) {
+      const b = ruw[i] as { van?: unknown; tekst?: unknown } | null;
+      const verwacht = i % 2 === 0 ? 'klant' : 'sam';
+      if (b === null || typeof b !== 'object' || b.van !== verwacht || typeof b.tekst !== 'string') { fouten.beurten = 'ongeldig'; break; }
+      const t = b.tekst.replace(/\s+/g, ' ').trim();
+      const max = verwacht === 'klant' ? MAX_TEKENS_KLANT : 600;
+      if (t === '' || STUURTEKENS.test(t) || lengte(t) > max) { fouten.beurten = 'ongeldig'; break; }
+      beurten.push({ van: verwacht, tekst: t });
+    }
+  }
+  return klaar(fouten, { vak: v ?? '', beurten });
 }

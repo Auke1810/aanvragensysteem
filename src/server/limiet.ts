@@ -11,9 +11,13 @@ export const LIMIETEN = {
   scan: { max: 5, venster: UUR },
   wachtlijst: { max: 5, venster: UUR },
   demo: { max: 3, venster: UUR },
+  // Sam in de demo: elk bericht van de bezoeker is één verzoek, een gesprek is hooguit 8 berichten
+  sam: { max: 40, venster: UUR },
   // per mobiel nummer: voorkomt dat iemand een ander nummer steeds laat appen (alleen geslaagde aanvragen tellen)
   scanNummer: { max: 2, venster: 24 * UUR },
-  demoNummer: { max: 1, venster: 24 * UUR }
+  demoNummer: { max: 1, venster: 24 * UUR },
+  // alle bezoekers samen: dagplafond op de kosten van het AI-model
+  samDag: { max: 1500, venster: 24 * UUR }
 } as const;
 
 type Item = { tijden: number[]; tot: number };

@@ -2,113 +2,208 @@
 import Base from '../layouts/Base.astro';
 import SamPhone from '../components/SamPhone.astro';
 import { R } from '../config';
-const VRAGEN: Record<string, [string, string]> = {
-  'Dakdekkers': ['Dakwerken Voorbeeld', 'Gaat het om een lekkage, een renovatie of isolatie van je dak?'],
-  'Hoveniers': ['Tuinen Voorbeeld', 'Gaat het om aanleg of onderhoud? En hoe groot is je tuin ongeveer?'],
-  'Renovatie en aannemers': ['Bouwbedrijf Voorbeeld', 'Wat voor klus is het, en hoe groot ongeveer?'],
-  'Installateurs': ['Installatie Voorbeeld', 'Gaat het om een warmtepomp, zonnepanelen of een batterij?']
-};
-const msgs = (vak: string, t = '21:04', t1 = '21:05') => {
-  const [b, v] = VRAGEN[vak];
+import { begroeting, DEMO_VAKKEN, MAX_KLANT_BERICHTEN, MAX_TEKENS_KLANT } from '../lib/samVakken';
+
+const START = 'Dakdekkers';
+// Wat de browser nodig heeft per vak. De instructies voor het AI-model blijven op de server (src/server/sam.ts).
+const DATA = Object.fromEntries(Object.entries(DEMO_VAKKEN).map(([vak, i]) => [vak, { ...i, begroeting: begroeting(i.bedrijf) }]));
+const voorbeeld = (vak: string, t = '21:04', t1 = '21:05') => {
+  const i = DEMO_VAKKEN[vak];
   return [
-    { sys: true, text: t + ' · Aanvraag via de website van ' + b },
-    { sam: true, text: 'Hoi, ik ben Sam, de digitale assistent van ' + b + '. Ik ben een AI. Bedankt voor je aanvraag.', time: t1 },
-    { sam: true, text: v, time: t1 },
-    { sam: true, text: 'Je mag gewoon antwoorden. Daarna plan ik een moment waarop de eigenaar je terugbelt.', time: t1 }
+    { sys: true, text: t + ' · Aanvraag via de website van ' + i.bedrijf },
+    { klant: true, text: i.voorbeeld, time: t },
+    { sam: true, text: begroeting(i.bedrijf), time: t1 }
   ];
 };
 ---
-<Base title="Demo: speel zelf de klant" description="Kies een vak, vul je mobiele nummer in en ervaar zelf hoe Sam binnen 2 minuten via WhatsApp reageert op een aanvraag.">
+<Base title="Demo: speel zelf de klant" description="Kies een vak, schrijf een aanvraag en praat zelf met Sam. Sam is een echt AI-model dat direct antwoordt, zoals bij jouw klanten.">
 <main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
   <section data-screen-label="01 Demo" style="background:#f2f3f7;padding:clamp(40px,7vw,88px) 20px">
     <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:start">
       <div>
         <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Demo</p>
         <h1 style="margin:0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Speel zelf de klant.</h1>
-        <p style="margin:20px 0 0;font-size:clamp(17px,1.6vw,19px);max-width:48ch">Kies een vak, vul je mobiele nummer in en vink toestemming aan. Je krijgt binnen 2 minuten een WhatsApp van Sam namens een voorbeeldbedrijf.</p>
-        <p style="margin:20px 0 0;padding:12px 14px;border:1px solid #9aa0ad;border-radius:8px;font-size:15px;color:#16233d;max-width:52ch">Dit is een demo. Het bedrijf bestaat niet. Je nummer gebruiken we alleen voor deze demo.</p>
+        <p style="margin:20px 0 0;font-size:clamp(17px,1.6vw,19px);max-width:48ch">Kies een vak en schrijf een aanvraag, zoals een klant dat doet. Sam antwoordt direct. Hij is een echt AI-model en leest wat je typt. Praat gewoon met hem door.</p>
+        <p style="margin:20px 0 0;padding:12px 14px;border:1px solid #9aa0ad;border-radius:8px;font-size:15px;color:#16233d;max-width:52ch">Dit is een demo. Het bedrijf bestaat niet. Vul geen echte persoonsgegevens in. Wij bewaren het gesprek niet.</p>
 
         <form id="demo-form" novalidate style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px">
           <div class="field"><label for="d-vak" class="label">Vak van het voorbeeldbedrijf</label>
-            <select id="d-vak" class="input">{Object.keys(VRAGEN).map((v) => <option value={v}>{v}</option>)}</select></div>
-          <div class="field"><label for="d-tel" class="label">Je mobiele nummer</label>
-            <input id="d-tel" type="tel" class="input" autocomplete="tel" placeholder="06 of +32" maxlength="30"></div>
-          <label style="display:flex;gap:12px;align-items:flex-start;color:#16233d;cursor:pointer;min-height:44px"><input id="d-ok" type="checkbox" style="width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#16233d">Je mag me voor deze demo één keer via WhatsApp berichten</label>
+            <select id="d-vak" class="input">{Object.keys(DEMO_VAKKEN).map((v) => <option value={v}>{v}</option>)}</select></div>
+          <div class="field"><label for="d-tekst" class="label">Je aanvraag</label>
+            <textarea id="d-tekst" class="input" rows="3" maxlength={MAX_TEKENS_KLANT} placeholder={DEMO_VAKKEN[START].voorbeeld} style="height:auto;min-height:96px;padding:12px;line-height:1.4;resize:vertical"></textarea>
+            <button type="button" id="d-voorbeeld" style="align-self:flex-start;background:none;border:0;padding:8px 0;color:#16233d;font:600 15px/1.2 var(--font-sans);text-decoration:underline;cursor:pointer">Vul een voorbeeld in</button></div>
+          <label style="display:flex;gap:12px;align-items:flex-start;color:#16233d;cursor:pointer;min-height:44px"><input id="d-ok" type="checkbox" style="width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#16233d">Mijn berichten mogen voor deze demo naar het AI-model van Sam (Anthropic)</label>
           <p id="d-err" role="alert" hidden style="margin:0;color:#a3321c;font-weight:600"></p>
           <button type="submit" class="btn btn-primary" style="align-self:flex-start">Start de demo<span class="arr" aria-hidden="true">→</span></button>
         </form>
-        <div id="d-running" aria-live="polite" hidden style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px">
-          <p style="margin:0;font-weight:700;color:#16233d">Aanvraag verstuurd om <span id="d-t0"></span>. Kijk op je telefoon.</p>
-          <p style="margin:6px 0 0">Hiernaast zie je hetzelfde gesprek meelopen.</p>
+
+        <div id="d-running" hidden style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px">
+          <p style="margin:0;font-weight:700;color:#16233d">Aanvraag verstuurd om <span id="d-t0"></span>. Antwoord Sam in de telefoon.</p>
+          <p style="margin:6px 0 0">Sam stelt een paar vragen en plant daarna een terugbelmoment. Je kunt hooguit {MAX_KLANT_BERICHTEN} berichten sturen.</p>
+          <button type="button" data-reset style="margin-top:12px;background:none;border:0;padding:8px 0;color:#16233d;font:600 15px/1 var(--font-sans);text-decoration:underline;cursor:pointer">Demo opnieuw</button>
         </div>
+
+        <div id="d-summary" hidden style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px">
+          <p style="margin:0;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#4b5563">Voorbeeld uit de app</p>
+          <h2 id="d-sum-titel" style="margin:8px 0 0;font:700 20px/1.3 var(--font-sans);color:#16233d"></h2>
+          <ul id="d-sum-lijst" style="margin:12px 0 0;padding-left:20px;color:#16233d"></ul>
+          <p style="margin:12px 0 0;font-size:14px">Opgesteld door het AI-model uit jullie gesprek. Het bedrijf bestaat niet.</p>
+        </div>
+
         <div id="d-done" hidden style="margin-top:28px;background:#16233d;border-radius:12px;padding:28px">
           <p style="margin:0;font:700 clamp(20px,2.4vw,24px)/1.4 var(--font-sans);color:#fff">Zo voelt stap 4 voor jouw klanten. Wil je zien waar bij jou werk weglekt?</p>
           <div style="margin-top:20px"><a href={`${R.scan}?bron=demo`} class="btn btn-primary">Vraag je gratis Aanvragen Scan aan<span class="arr" aria-hidden="true">→</span></a></div>
-          <button type="button" id="d-reset" style="margin-top:16px;background:none;border:0;padding:8px 0;color:#fff;font:600 15px/1 var(--font-sans);text-decoration:underline;cursor:pointer">Demo opnieuw</button>
+          <button type="button" data-reset style="margin-top:16px;background:none;border:0;padding:8px 0;color:#fff;font:600 15px/1 var(--font-sans);text-decoration:underline;cursor:pointer">Demo opnieuw</button>
         </div>
       </div>
+
       <div style="display:flex;justify-content:center">
-        <SamPhone id="demo-phone" title="Sam · Dakwerken Voorbeeld" messages={msgs('Dakdekkers')} clockIn="21:04" clockOut="21:05" status="21:05" caption="Het bedrijf bestaat niet. Voorbeeld met verzonnen gegevens." />
+        <SamPhone id="demo-phone" live preset="dak" title={'Sam · ' + DEMO_VAKKEN[START].bedrijf} messages={voorbeeld(START)} clockIn="21:04" clockOut="21:05" status="21:05" caption="Het bedrijf bestaat niet. Voorbeeld met verzonnen gegevens.">
+          <form slot="footer" id="chat-form" class="chat-form" novalidate hidden>
+            <label for="chat-in" class="sr-only">Je bericht aan Sam</label>
+            <input id="chat-in" type="text" autocomplete="off" maxlength={MAX_TEKENS_KLANT} placeholder="Typ een bericht" />
+            <button type="submit" id="chat-send" class="btn btn-dark"><span class="sr-only">Verstuur</span><span aria-hidden="true">→</span></button>
+          </form>
+        </SamPhone>
       </div>
     </div>
   </section>
 </main>
-<script is:inline type="application/json" id="demo-data" set:html={JSON.stringify(VRAGEN)}></script>
+<script is:inline type="application/json" id="demo-data" set:html={JSON.stringify(DATA)}></script>
 </Base>
 
+<style is:global>
+  #demo-phone [data-msgs]{min-height:300px;max-height:380px;overflow-y:auto;scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){#demo-phone [data-msgs]{scroll-behavior:auto}}
+  .chat-form{display:flex;gap:8px;padding:10px;background:#f6f5f1;border-top:1px solid #d9d6cc}
+  .chat-form input{flex:1;min-width:0;height:44px;border:1px solid #9aa0ad;border-radius:22px;padding:0 16px;font:400 16px/1 var(--font-sans);color:#16233d;background:#fff}
+  .chat-form input:focus-visible{outline:2px solid #16233d;outline-offset:2px}
+  .chat-form .btn{min-height:44px;width:48px;padding:0;border-radius:22px;flex:none}
+  .chat-form input:disabled{background:#ecebe6}
+</style>
+
 <script>
-  import { insert } from '../lib/db';
-  const VRAGEN = JSON.parse(document.getElementById('demo-data')!.textContent!) as Record<string, [string, string]>;
+  import { samAntwoord, type SamBeurt } from '../lib/db';
+  type Info = { bedrijf: string; eigenaar: string; voorbeeld: string; begroeting: string };
+  const DATA = JSON.parse(document.getElementById('demo-data')!.textContent!) as Record<string, Info>;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const phone = $('demo-phone');
   const box = phone.querySelector<HTMLElement>('[data-msgs]')!;
-  const hm = (d: Date) => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-  const form = $<HTMLFormElement>('demo-form'), vak = $<HTMLSelectElement>('d-vak'), tel = $<HTMLInputElement>('d-tel'), ok = $<HTMLInputElement>('d-ok');
-  let timers: number[] = [];
+  const klok = { in: phone.querySelector('[data-clock-in]')!, uit: phone.querySelector('[data-clock-out]')!, status: phone.querySelector('[data-status]')!, titel: phone.querySelector('[data-title]')! };
+  const form = $<HTMLFormElement>('demo-form'), vak = $<HTMLSelectElement>('d-vak'), tekst = $<HTMLTextAreaElement>('d-tekst'), ok = $<HTMLInputElement>('d-ok'), err = $('d-err');
+  const chat = $<HTMLFormElement>('chat-form'), chatIn = $<HTMLInputElement>('chat-in'), chatSend = $<HTMLButtonElement>('chat-send');
+  const running = $('d-running'), summary = $('d-summary'), done = $('d-done');
 
-  const all = (v: string, t: string, t1: string) => {
-    const [b, q] = VRAGEN[v];
-    return [
-      { cls: 'm-sys', text: t + ' · Aanvraag via de website van ' + b },
-      { cls: 'm-sam', text: 'Hoi, ik ben Sam, de digitale assistent van ' + b + '. Ik ben een AI. Bedankt voor je aanvraag.', time: t1 },
-      { cls: 'm-sam', text: q, time: t1 },
-      { cls: 'm-sam', text: 'Je mag gewoon antwoorden. Daarna plan ik een moment waarop de eigenaar je terugbelt.', time: t1 }
-    ];
+  const hm = (d = new Date()) => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  const wacht = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+  const norm = (s: string) => s.replace(/\s+/g, ' ').trim();
+  const rustig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let beurten: SamBeurt[] = [];
+  let bezig = false;
+  let sessie = 0; // gaat omhoog bij "Demo opnieuw", zodat een late reactie van Sam wordt genegeerd
+
+  const naarEinde = () => { box.scrollTop = box.scrollHeight; };
+  const bubble = (cls: string, t: string, tijd?: string) => {
+    const d = document.createElement('div'); d.className = cls;
+    if (tijd) { const a = document.createElement('span'); a.textContent = t; const b = document.createElement('span'); b.className = 'm-time'; b.textContent = tijd; d.append(a, b); }
+    else d.textContent = t;
+    box.append(d); naarEinde();
   };
-  const render = (v: string, t: string, t1: string, count: number, typing: boolean) => {
+  const typt = (aan: boolean) => {
+    box.querySelector('.m-typing')?.remove();
+    if (aan) { const d = document.createElement('div'); d.className = 'm-typing'; d.textContent = 'Sam typt…'; box.append(d); naarEinde(); }
+  };
+  const kop = (v: string, t: string, t1: string) => {
+    klok.titel.textContent = 'Sam · ' + DATA[v].bedrijf; klok.in.textContent = t; klok.uit.textContent = t1; klok.status.textContent = t1;
+  };
+  const voorbeeld = (v: string) => {
     box.replaceChildren();
-    all(v, t, t1).slice(0, count).forEach((m) => {
-      const d = document.createElement('div'); d.className = m.cls;
-      if (m.time) { const a = document.createElement('span'); a.textContent = m.text; const b = document.createElement('span'); b.className = 'm-time'; b.textContent = m.time; d.append(a, b); }
-      else d.textContent = m.text;
-      box.append(d);
-    });
-    if (typing) { const d = document.createElement('div'); d.className = 'm-typing'; d.textContent = 'Sam typt…'; box.append(d); }
-    phone.querySelector('[data-title]')!.textContent = 'Sam · ' + VRAGEN[v][0];
-    phone.querySelector('[data-clock-in]')!.textContent = t;
-    phone.querySelector('[data-clock-out]')!.textContent = t1;
-    phone.querySelector('[data-status]')!.textContent = t1;
+    bubble('m-sys', '21:04 · Aanvraag via de website van ' + DATA[v].bedrijf);
+    bubble('m-klant', DATA[v].voorbeeld, '21:04');
+    bubble('m-sam', DATA[v].begroeting, '21:05');
+    kop(v, '21:04', '21:05');
+    box.scrollTop = 0;
   };
-  vak.addEventListener('change', () => render(vak.value, '21:04', '21:05', 4, false));
+  const invoer = (aan: boolean) => { chat.hidden = false; chatIn.disabled = !aan; chatSend.disabled = !aan; };
+
+  vak.addEventListener('change', () => { tekst.placeholder = DATA[vak.value].voorbeeld; voorbeeld(vak.value); });
+  $('d-voorbeeld').addEventListener('click', () => { tekst.value = DATA[vak.value].voorbeeld; tekst.focus(); });
+
+  const FOUTEN = {
+    te_veel: 'Je hebt de demo vaak gebruikt. Probeer het over een uur opnieuw.',
+    druk: 'De demo is vandaag erg druk geweest. Probeer het morgen opnieuw.',
+    niet_beschikbaar: 'Sam is even niet bereikbaar. Probeer het later opnieuw.'
+  };
+
+  const klaar = (info: Info, regels: string[]) => {
+    chat.hidden = true; running.hidden = true; done.hidden = false;
+    if (regels.length) {
+      $('d-sum-titel').textContent = 'Dit krijgt ' + info.eigenaar + ' van Sam';
+      $('d-sum-lijst').replaceChildren(...regels.map((r) => { const li = document.createElement('li'); li.textContent = r; return li; }));
+      summary.hidden = false;
+    }
+  };
+
+  async function samAan(mijn: number, v: string, eerste: boolean) {
+    bezig = true; invoer(false); typt(true);
+    const info = DATA[v];
+    const verzoek = samAntwoord(v, beurten); // meteen starten, de wachttijd hieronder loopt ernaast
+    if (eerste) {
+      await wacht(900);
+      if (mijn !== sessie) return;
+      typt(false);
+      const tg = hm();
+      bubble('m-sam', info.begroeting, tg);
+      klok.uit.textContent = tg;
+      typt(true);
+    }
+    const [r] = await Promise.all([verzoek, wacht(eerste ? 700 : 900)]);
+    if (mijn !== sessie) return;
+    typt(false);
+    if (!r.ok) { bubble('m-sys', FOUTEN[r.fout]); chat.hidden = true; return; }
+    bubble('m-sam', r.bericht, hm());
+    beurten.push({ van: 'sam', tekst: r.bericht });
+    if (r.afgerond) { klaar(info, r.samenvatting); return; }
+    bezig = false; invoer(true); chatIn.focus({ preventScroll: true });
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const err = !tel.value.trim() ? 'Vul je mobiele nummer in.' : !ok.checked ? 'Vink de toestemming aan om de demo te starten.' : '';
-    tel.toggleAttribute('aria-invalid', !tel.value.trim());
-    if (err) { $('d-err').textContent = err; $('d-err').hidden = false; return; }
-    $('d-err').hidden = true;
-    insert('demo_aanvragen', { vak: vak.value, mobiel: tel.value.trim(), toestemming: true });
-    const d0 = new Date(), t = hm(d0), t1 = hm(new Date(d0.getTime() + 60000));
-    form.hidden = true; $('d-running').hidden = false; $('d-t0').textContent = t;
-    render(vak.value, t, t1, 1, true);
-    [[1400, 2], [3200, 3], [4600, 4], [6400, 5]].forEach(([ms, s]) => timers.push(window.setTimeout(() => {
-      render(vak.value, t, t1, Math.min(s, 4), s < 4);
-      if (s === 5) { $('d-running').hidden = true; $('d-done').hidden = false; }
-    }, ms)));
+    const t = norm(tekst.value);
+    const fout = t.length < 5 ? 'Schrijf een korte aanvraag, zoals een klant dat zou doen.' : !ok.checked ? 'Vink de toestemming aan om de demo te starten.' : '';
+    tekst.setAttribute('aria-invalid', String(t.length < 5));
+    if (fout) { err.textContent = fout; err.hidden = false; return; }
+    err.hidden = true;
+    const mijn = ++sessie, v = vak.value, t0 = hm();
+    form.hidden = true; running.hidden = false; $('d-t0').textContent = t0;
+    box.replaceChildren(); box.setAttribute('role', 'log'); box.setAttribute('aria-label', 'Gesprek met Sam');
+    kop(v, t0, '…');
+    bubble('m-sys', t0 + ' · Aanvraag via de website van ' + DATA[v].bedrijf);
+    bubble('m-klant', t, t0);
+    beurten = [{ van: 'klant', tekst: t }];
+    phone.scrollIntoView({ behavior: rustig ? 'auto' : 'smooth', block: 'center' });
+    samAan(mijn, v, true);
   });
-  $('d-reset').addEventListener('click', () => {
-    timers.forEach(clearTimeout); timers = [];
-    $('d-done').hidden = true; $('d-running').hidden = true; form.hidden = false;
-    render(vak.value, '21:04', '21:05', 4, false);
+
+  chat.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = norm(chatIn.value);
+    if (bezig || !t) return;
+    chatIn.value = '';
+    bubble('m-klant', t, hm());
+    beurten.push({ van: 'klant', tekst: t });
+    samAan(sessie, vak.value, false);
   });
+
+  document.querySelectorAll('[data-reset]').forEach((b) => b.addEventListener('click', () => {
+    sessie++; bezig = false; beurten = [];
+    chat.hidden = true; chatIn.value = '';
+    running.hidden = true; summary.hidden = true; done.hidden = true; err.hidden = true;
+    box.removeAttribute('role'); box.removeAttribute('aria-label');
+    tekst.value = ''; tekst.removeAttribute('aria-invalid');
+    form.hidden = false;
+    voorbeeld(vak.value);
+    tekst.focus({ preventScroll: true });
+  }));
 </script>

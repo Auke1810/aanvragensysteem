@@ -27,7 +27,8 @@ De pagina's werken zonder database. Voor de formulieren en de regiocheck heb je 
 | `src/lib/db.ts` | Draait in de browser en roept alleen de eigen endpoints in `/api/` aan (alleen `fetch`) |
 | `src/pages/api/` | De endpoints: `scan`, `regiocheck`, `wachtlijst`, `demo`. Draaien op de server |
 | `src/server/` | Serverkant: databaseverbinding, invoercontrole, spamlimiet, regiocheck-query. Nooit importeren in code die in de browser draait |
-| `public/` | Bestanden die ongewijzigd online gaan: `.htaccess`, `robots.txt`, `llms.txt`, favicon |
+| `public/` | Bestanden die ongewijzigd online gaan: `.htaccess`, `llms.txt`, favicon |
+| `src/pages/robots.txt.ts` | Maakt `robots.txt`. Volgt de schakelaar `INDEXEREN` in `src/config.ts` |
 | `db/001_init.mysql.sql` | Het databaseschema voor MySQL 8 of MariaDB 10.5 en nieuwer |
 
 ## Database (MySQL)
@@ -66,3 +67,7 @@ Domeinen: zet aanvragensysteem.be en aanvraagsysteem.nl in hPanel als doorverwij
 - Juridische pagina's: privacy, voorwaarden, AI en gegevens, wettelijke vermeldingen
 - Kennisbank (/kennisbank/), staat in de PRD maar nog niet in het ontwerp
 - Video en extra foto's op Over Auke
+
+## Zoekmachines (noindex)
+
+In `src/config.ts` staat `INDEXEREN`. Zolang die op `false` staat, krijgt elke pagina `noindex` en blokkeert `robots.txt` alles. Zet hem op `true` op de dag dat de site publiek mag, commit en push. Dan verdwijnt de noindex, komt de sitemap in `robots.txt` en krijgen de pagina's weer een canonical-link.

@@ -19,6 +19,10 @@ export const SITE = {
   meetingSinds: 'oktober 2026'
 };
 
+// Zet op true op de dag dat de site publiek mag. Dit regelt de noindex op alle pagina's
+// en het robots.txt-bestand. Verder hoeft er niets te veranderen.
+export const INDEXEREN = false;
+
 // Founding Partners: met de hand bijwerken. De site leest dit getal hier, niet uit de database.
 export const FP_LEFT = 5;
 export const FP_TOTAL = 5;

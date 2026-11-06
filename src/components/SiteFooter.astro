@@ -1,0 +1,71 @@
+---
+import { R, SITE } from '../config';
+interface Props { border?: boolean }
+const { border = false } = Astro.props;
+const fl = 'display:inline-block;padding:6px 0;color:#d4d7de;font-size:16px';
+---
+<footer class="site-footer" style={`background:#16233d;color:#b9bdc5;font-family:var(--font-sans);${border ? 'border-top:1px solid rgba(255,255,255,.14)' : ''}`}>
+  <div class="footer-grid" style="max-width:1120px;margin:0 auto;padding:64px 20px 32px;display:grid;gap:40px">
+    <div>
+      <div style="font:800 19px/1 var(--font-sans);letter-spacing:-0.02em"><span style="color:#fff">aanvragen</span><span style="color:#f16a2c">systeem</span></div>
+      <p style="margin:16px 0 0;font-size:15px;line-height:1.6;max-width:320px">Het Aanvragensysteem van Auke Jongbloed bouwt en beheert het complete aanvragensysteem voor lokale vakbedrijven in Nederland en Vlaanderen.</p>
+    </div>
+    <nav aria-label="Het systeem">
+      <div style="font:700 12px/1.2 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#fff;margin-bottom:16px">Het systeem</div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px">
+        <li><a href={R.systeem} class="h-white" style={fl}>Het Aanvragensysteem</a></li>
+        <li><a href={R.voorWie} class="h-white" style={fl}>Voor wie</a></li>
+        <li><a href={R.prijs} class="h-white" style={fl}>Prijs</a></li>
+        <li><a href={R.garantie} class="h-white" style={fl}>Garantie</a></li>
+        <li><a href={R.vragen} class="h-white" style={fl}>Veelgestelde vragen</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Bewijs en meer">
+      <div style="font:700 12px/1.2 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#fff;margin-bottom:16px">Bewijs en meer</div>
+      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px">
+        <li><a href={R.demo} class="h-white" style={fl}>Speel zelf de klant</a></li>
+        <li><a href={R.zoWerkt} class="h-white" style={fl}>Zo werkt deze site</a></li>
+        <li><a href={R.resultaten} class="h-white" style={fl}>Resultaten</a></li>
+        <li><a href={R.oudeOffertes} class="h-white" style={fl}>Oude offertes</a></li>
+        <li><a href={R.overAuke} class="h-white" style={fl}>Over Auke</a></li>
+        <li><a href={R.contact} class="h-white" style={fl}>Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div style="max-width:1120px;margin:0 auto;padding:24px 20px 32px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:14px;line-height:1.6">
+    <div>{SITE.owner} · Franse onderneming · SIRET {SITE.siret} · Hosting in de EU: {SITE.hosting}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px 20px">
+      <span>Privacy (volgt)</span>
+      <span>Voorwaarden (volgt)</span>
+      <span>AI en gegevens (volgt)</span>
+      <span>Wettelijke vermeldingen (volgt)</span>
+    </div>
+    <div style="width:100%;display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums"><span aria-hidden="true" style="width:8px;height:8px;border-radius:999px;background:#b9bdc5"></span><span>Deze pagina laadde in <span data-load>…</span> seconde. Live gemeten in jouw browser.</span></div>
+  </div>
+  <div class="bar-spacer" style="height:68px"></div>
+</footer>
+<nav aria-label="Snel contact" class="quickbar" style="position:fixed;left:0;right:0;bottom:0;z-index:70;background:#16233d;border-top:1px solid rgba(255,255,255,.14);grid-template-columns:1fr 1fr 1fr;height:64px;font-family:var(--font-sans);padding-bottom:env(safe-area-inset-bottom)">
+  <a href={R.scan} style="display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;text-decoration:none;border-right:1px solid rgba(255,255,255,.14)">Scan</a>
+  <a href={SITE.phoneHref} style="display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;text-decoration:none;border-right:1px solid rgba(255,255,255,.14)">Bellen</a>
+  <a href={SITE.whatsapp} rel="noopener" style="display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;text-decoration:none">WhatsApp</a>
+</nav>
+
+<style>
+  .footer-grid{grid-template-columns:minmax(0,1fr)}
+  @media (min-width:600px){.footer-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+  @media (min-width:900px){.footer-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr)}}
+  .quickbar{display:grid}
+  @media (min-width:1024px){.quickbar,.bar-spacer{display:none}}
+</style>
+
+<script>
+  // Echte laadtijd van deze pagina, gemeten in de browser van de bezoeker
+  const measure = () => {
+    const n = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+    const t = n && n.loadEventEnd > 0 ? n.loadEventEnd : performance.now();
+    const s = (t / 1000).toFixed(1).replace('.', ',');
+    document.querySelectorAll('[data-load]').forEach((el) => (el.textContent = s));
+  };
+  if (document.readyState === 'complete') setTimeout(measure, 0);
+  else window.addEventListener('load', () => setTimeout(measure, 0), { once: true });
+</script>

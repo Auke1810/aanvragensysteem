@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import SamPhone from '../components/SamPhone.astro';
+import { R } from '../config';
+const VRAGEN: Record<string, [string, string]> = {
+  'Dakdekkers': ['Dakwerken Voorbeeld', 'Gaat het om een lekkage, een renovatie of isolatie van je dak?'],
+  'Hoveniers': ['Tuinen Voorbeeld', 'Gaat het om aanleg of onderhoud? En hoe groot is je tuin ongeveer?'],
+  'Renovatie en aannemers': ['Bouwbedrijf Voorbeeld', 'Wat voor klus is het, en hoe groot ongeveer?'],
+  'Installateurs': ['Installatie Voorbeeld', 'Gaat het om een warmtepomp, zonnepanelen of een batterij?']
+};
+const msgs = (vak: string, t = '21:04', t1 = '21:05') => {
+  const [b, v] = VRAGEN[vak];
+  return [
+    { sys: true, text: t + ' · Aanvraag via de website van ' + b },
+    { sam: true, text: 'Hoi, ik ben Sam, de digitale assistent van ' + b + '. Ik ben een AI. Bedankt voor je aanvraag.', time: t1 },
+    { sam: true, text: v, time: t1 },
+    { sam: true, text: 'Je mag gewoon antwoorden. Daarna plan ik een moment waarop de eigenaar je terugbelt.', time: t1 }
+  ];
+};
+---
+<Base title="Demo: speel zelf de klant" description="Kies een vak, vul je mobiele nummer in en ervaar zelf hoe Sam binnen 2 minuten via WhatsApp reageert op een aanvraag.">
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Demo" style="background:#f2f3f7;padding:clamp(40px,7vw,88px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:start">
+      <div>
+        <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Demo</p>
+        <h1 style="margin:0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Speel zelf de klant.</h1>
+        <p style="margin:20px 0 0;font-size:clamp(17px,1.6vw,19px);max-width:48ch">Kies een vak, vul je mobiele nummer in en vink toestemming aan. Je krijgt binnen 2 minuten een WhatsApp van Sam namens een voorbeeldbedrijf.</p>
+        <p style="margin:20px 0 0;padding:12px 14px;border:1px solid #9aa0ad;border-radius:8px;font-size:15px;color:#16233d;max-width:52ch">Dit is een demo. Het bedrijf bestaat niet. Je nummer gebruiken we alleen voor deze demo.</p>
+
+        <form id="demo-form" novalidate style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px">
+          <div class="field"><label for="d-vak" class="label">Vak van het voorbeeldbedrijf</label>
+            <select id="d-vak" class="input">{Object.keys(VRAGEN).map((v) => <option value={v}>{v}</option>)}</select></div>
+          <div class="field"><label for="d-tel" class="label">Je mobiele nummer</label>
+            <input id="d-tel" type="tel" class="input" autocomplete="tel" placeholder="06 of +32" maxlength="30"></div>
+          <label style="display:flex;gap:12px;align-items:flex-start;color:#16233d;cursor:pointer;min-height:44px"><input id="d-ok" type="checkbox" style="width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#16233d">Je mag me voor deze demo één keer via WhatsApp berichten</label>
+          <p id="d-err" role="alert" hidden style="margin:0;color:#a3321c;font-weight:600"></p>
+          <button type="submit" class="btn btn-primary btn-full">Start de demo<span class="arr" aria-hidden="true">→</span></button>
+        </form>
+        <div id="d-running" aria-live="polite" hidden style="margin-top:28px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px">
+          <p style="margin:0;font-weight:700;color:#16233d">Aanvraag verstuurd om <span id="d-t0"></span>. Kijk op je telefoon.</p>
+          <p style="margin:6px 0 0">Hiernaast zie je hetzelfde gesprek meelopen.</p>
+        </div>
+        <div id="d-done" hidden style="margin-top:28px;background:#16233d;border-radius:12px;padding:28px">
+          <p style="margin:0;font:700 clamp(20px,2.4vw,24px)/1.4 var(--font-sans);color:#fff">Zo voelt stap 4 voor jouw klanten. Wil je zien waar bij jou werk weglekt?</p>
+          <div style="margin-top:20px"><a href={`${R.scan}?bron=demo`} class="btn btn-primary">Vraag je gratis Aanvragen Scan aan<span class="arr" aria-hidden="true">→</span></a></div>
+          <button type="button" id="d-reset" style="margin-top:16px;background:none;border:0;padding:8px 0;color:#fff;font:600 15px/1 var(--font-sans);text-decoration:underline;cursor:pointer">Demo opnieuw</button>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center">
+        <SamPhone id="demo-phone" title="Sam · Dakwerken Voorbeeld" messages={msgs('Dakdekkers')} clockIn="21:04" clockOut="21:05" status="21:05" caption="Het bedrijf bestaat niet. Voorbeeld met verzonnen gegevens." />
+      </div>
+    </div>
+  </section>
+</main>
+<script is:inline type="application/json" id="demo-data" set:html={JSON.stringify(VRAGEN)}></script>
+</Base>
+
+<script>
+  import { insert } from '../lib/db';
+  const VRAGEN = JSON.parse(document.getElementById('demo-data')!.textContent!) as Record<string, [string, string]>;
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const phone = $('demo-phone');
+  const box = phone.querySelector<HTMLElement>('[data-msgs]')!;
+  const hm = (d: Date) => String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  const form = $<HTMLFormElement>('demo-form'), vak = $<HTMLSelectElement>('d-vak'), tel = $<HTMLInputElement>('d-tel'), ok = $<HTMLInputElement>('d-ok');
+  let timers: number[] = [];
+
+  const all = (v: string, t: string, t1: string) => {
+    const [b, q] = VRAGEN[v];
+    return [
+      { cls: 'm-sys', text: t + ' · Aanvraag via de website van ' + b },
+      { cls: 'm-sam', text: 'Hoi, ik ben Sam, de digitale assistent van ' + b + '. Ik ben een AI. Bedankt voor je aanvraag.', time: t1 },
+      { cls: 'm-sam', text: q, time: t1 },
+      { cls: 'm-sam', text: 'Je mag gewoon antwoorden. Daarna plan ik een moment waarop de eigenaar je terugbelt.', time: t1 }
+    ];
+  };
+  const render = (v: string, t: string, t1: string, count: number, typing: boolean) => {
+    box.replaceChildren();
+    all(v, t, t1).slice(0, count).forEach((m) => {
+      const d = document.createElement('div'); d.className = m.cls;
+      if (m.time) { const a = document.createElement('span'); a.textContent = m.text; const b = document.createElement('span'); b.className = 'm-time'; b.textContent = m.time; d.append(a, b); }
+      else d.textContent = m.text;
+      box.append(d);
+    });
+    if (typing) { const d = document.createElement('div'); d.className = 'm-typing'; d.textContent = 'Sam typt…'; box.append(d); }
+    phone.querySelector('[data-title]')!.textContent = 'Sam · ' + VRAGEN[v][0];
+    phone.querySelector('[data-clock-in]')!.textContent = t;
+    phone.querySelector('[data-clock-out]')!.textContent = t1;
+    phone.querySelector('[data-status]')!.textContent = t1;
+  };
+  vak.addEventListener('change', () => render(vak.value, '21:04', '21:05', 4, false));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const err = !tel.value.trim() ? 'Vul je mobiele nummer in.' : !ok.checked ? 'Vink de toestemming aan om de demo te starten.' : '';
+    tel.toggleAttribute('aria-invalid', !tel.value.trim());
+    if (err) { $('d-err').textContent = err; $('d-err').hidden = false; return; }
+    $('d-err').hidden = true;
+    insert('demo_aanvragen', { vak: vak.value, mobiel: tel.value.trim(), toestemming: true });
+    const d0 = new Date(), t = hm(d0), t1 = hm(new Date(d0.getTime() + 60000));
+    form.hidden = true; $('d-running').hidden = false; $('d-t0').textContent = t;
+    render(vak.value, t, t1, 1, true);
+    [[1400, 2], [3200, 3], [4600, 4], [6400, 5]].forEach(([ms, s]) => timers.push(window.setTimeout(() => {
+      render(vak.value, t, t1, Math.min(s, 4), s < 4);
+      if (s === 5) { $('d-running').hidden = true; $('d-done').hidden = false; }
+    }, ms)));
+  });
+  $('d-reset').addEventListener('click', () => {
+    timers.forEach(clearTimeout); timers = [];
+    $('d-done').hidden = true; $('d-running').hidden = true; form.hidden = false;
+    render(vak.value, '21:04', '21:05', 4, false);
+  });
+</script>

@@ -1,0 +1,57 @@
+---
+import '@fontsource-variable/figtree/wght.css';
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { SITE } from '../config';
+import figtreeLatin from '@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  active?: '' | 'systeem' | 'voorwie' | 'prijs' | 'garantie' | 'auke';
+  bg?: string;
+  footerBorder?: boolean;
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+const { title, description, active = '', bg = '#fff', footerBorder = false, noindex = false, schema } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const fullTitle = title.includes('Aanvragensysteem') ? title : `${title} · Het Aanvragensysteem`;
+const org = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  url: SITE.url,
+  founder: { '@type': 'Person', name: SITE.owner },
+  areaServed: ['NL', 'BE'],
+  email: SITE.email
+};
+const ld = [org, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
+---
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <link rel="preload" href={figtreeLatin} as="font" type="font/woff2" crossorigin />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="theme-color" content="#16233d" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  </head>
+  <body style={`background:${bg}`}>
+    <SiteHeader active={active} />
+    <slot />
+    <SiteFooter border={footerBorder} />
+  </body>
+</html>

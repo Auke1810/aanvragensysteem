@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+import LiveLabel from '../components/LiveLabel.astro';
+import { SITE } from '../config';
+---
+<Base title="Zo werkt deze site" description="Achter de schermen: alle zes stappen van De Aanvragenroute draaien op deze site. Wat ik verkoop, draait hier ook." footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Hero" style="background:#16233d;padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <LiveLabel  />
+      <h1 style="margin:20px 0 0;font:800 clamp(34px,5.2vw,54px)/1.06 var(--font-sans);letter-spacing:-0.02em;color:#fff;max-width:20ch;text-wrap:balance">Achter de schermen: alle zes stappen draaien hier.</h1>
+      <p style="margin:24px 0 0;font-size:clamp(17px,1.6vw,19px);color:#d4d7de;max-width:56ch">Deze site is mijn eigen klant nummer 1. Elke kaart hieronder laat zien waar je het werkend ziet.</p>
+    </div>
+  </section>
+  <section data-screen-label="02 Negen kaarten" style="background:#f2f3f7;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(calc(33.33% - 24px),calc((760px - 100%) * 999),100%),1fr));gap:20px">
+      <div id="vakpaginas" style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 1 · Vakpagina's</p>
+        <p style="margin:0;color:#16233d">Zoals jouw dienst- en regiopagina's. Voor mij is het vak de regio.</p>
+        <a href="/voor/dakdekkers/" style="font-weight:700">Bekijk de pagina voor dakdekkers →</a>
+        <div style="margin-top:auto"><LiveLabel  /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 1 · Content en AI-antwoorden</p>
+        <p style="margin:0;color:#16233d">De twee nieuwste artikelen:</p>
+        <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:#16233d"><li>Google Bedrijfsprofiel voor vakbedrijven: de complete checklist</li><li>Werkspot of eigen aanvragen? Een eerlijke vergelijking voor vakmensen</li></ul>
+        <p style="margin:0;font-size:15px">In llms.txt staat wie ik ben, wat ik doe, voor wie, de prijs en de garantie. Ik beloof geen vaste plek in AI-antwoorden.</p>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 2 · Snelle site</p>
+        <p style="margin:0;color:#16233d">Laadtijd van deze pagina, live gemeten:</p>
+        <p style="margin:0;font:800 40px/1 var(--font-sans);color:#16233d;font-variant-numeric:tabular-nums"><span data-load>…</span> s</p>
+        <div style="margin-top:auto"><LiveLabel  /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 2 · Beheer</p>
+        <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;color:#16233d;font-variant-numeric:tabular-nums"><dt style="color:#4b5563">Laatste update</dt><dd style="margin:0;font-weight:700">29 september 2026</dd><dt style="color:#4b5563">Uptime</dt><dd style="margin:0;font-weight:700">Meting loopt</dd></dl>
+        <div style="margin-top:auto"><LiveLabel  /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 3 · Aanvraag</p>
+        <p style="margin:0;color:#16233d">Het scanformulier in 2 stappen, met de regiocheck direct in stap 1.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 20px"><a href="/scan/" style="font-weight:700">Naar het formulier →</a><a href="/regiocheck/" style="font-weight:700">Naar de regiocheck →</a></div>
+        <div style="margin-top:auto"><LiveLabel  /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 4 · WhatsApp-opvolging</p>
+        <p style="margin:0;color:#16233d">Vul je nummer in en krijg binnen 2 minuten een WhatsApp van Sam.</p>
+        <div style="margin-top:auto"><Btn variant="secondary" href="/demo/" label="Speel zelf de klant" /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 4 · Gemiste oproep</p>
+        <p style="margin:0;color:#16233d">Bel dit nummer en hang op. Binnen 2 minuten krijg je een bericht.</p>
+        <a href={SITE.phoneHref} style="font:800 24px/1.2 var(--font-sans);color:#16233d;font-variant-numeric:tabular-nums">{SITE.phoneDisplay}</a>
+        <div style="margin-top:auto"><LiveLabel  /></div>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 5 · Voorstel-opvolging</p>
+        <p style="margin:0;color:#16233d">Na een gesprek volg ik mijn eigen voorstel op zoals jouw offertes.</p>
+        <span style="align-self:flex-start;padding:3px 10px;border:1px solid var(--grey-200);border-radius:999px;font-size:13px;font-weight:700;color:#4b5563">Voorbeeld</span>
+        <blockquote style="margin:0;padding:14px 16px;background:#f4f5f9;border-radius:8px;color:#16233d;font-size:16px">Hoi &#123;voornaam&#125;, dit is een automatisch bericht namens Auke. Je kreeg deze week mijn voorstel voor Het Aanvragensysteem. Zijn er nog vragen, of zal ik je even bellen? Liever geen berichten meer? Stuur STOP.</blockquote>
+      </div>
+      <div id="reactivatie" style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:10px">
+        <p style="margin:0;font-weight:800;font-size:13px;color:#c34209">Stap 6 · Reactivatie en reviews</p>
+        <p style="margin:0;color:#16233d">Dit bericht krijgen scanaanvragers na een kwartaal:</p>
+        <blockquote style="margin:0;padding:14px 16px;background:#f4f5f9;border-radius:8px;color:#16233d;font-size:16px">Hoi &#123;voornaam&#125;, dit is Sam, de AI-assistent van Auke. Je vroeg in &#123;maand&#125; een Aanvragen Scan aan. Het Aanvragensysteem is nu actief voor &#123;vak&#125;, en jouw regio is nog vrij. Zal Auke je even bellen? Liever geen berichten meer? Stuur STOP.</blockquote>
+        <p style="margin:0;font-size:15px">Klanten krijgen na de start een review- en doorverwijsverzoek.</p>
+      </div>
+    </div>
+    <p style="margin:28px 0 0;color:#16233d">Mijn eigen cijfers staan elke maand openbaar, met één meetpunt per stap. <a href="/resultaten/" style="font-weight:700">Naar de resultaten →</a></p>
+    </div>
+  </section>
+  <section data-screen-label="03 Gereedschap" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:800px;margin:0 auto">
+      <h2 style="margin:0 0 16px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Gereedschap</h2>
+      <p style="margin:0">Deze site draait op precies dezelfde techniek als een klantsite. <strong style="color:#16233d">WordPress</strong> voor de website, gehost in de EU. <strong style="color:#16233d">GoHighLevel</strong> voor formulieren, inbox, agenda, pijplijn en reactivatie. <strong style="color:#16233d">n8n</strong> voor de koppelingen, zoals de regiocheck, de teller en de resultatenpagina.</p>
+    </div>
+  </section>
+  <section data-screen-label="04 Slot" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0;font:800 clamp(30px,4.6vw,46px)/1.1 var(--font-sans);letter-spacing:-0.02em;color:#fff">Dit kan voor jouw bedrijf ook draaien.</h2>
+      <div style="margin-top:32px"><Btn variant="primary" href="/scan/" label="Vraag je gratis Aanvragen Scan aan" /></div>
+      <p style="margin:16px 0 0;color:#d4d7de;font-size:15px">Je krijgt binnen 2 minuten een WhatsApp van Sam. Dat is meteen je eerste demo.</p>
+    </div>
+  </section>
+</main>
+</Base>

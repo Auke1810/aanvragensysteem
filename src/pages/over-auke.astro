@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+import { Image } from 'astro:assets';
+import auke from '../assets/auke.webp';
+---
+<Base title="Over Auke Jongbloed" description="Wie er achter Het Aanvragensysteem zit, en waarom je met één vaste persoon werkt. In het Nederlands, in jouw tijdzone." active="auke" footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Hero" style="background:#fff;padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:48px;align-items:center">
+      <div>
+        <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Over Auke</p>
+        <h1 style="margin:0;font:800 clamp(34px,5.2vw,54px)/1.06 var(--font-sans);letter-spacing:-0.02em;color:#16233d;text-wrap:balance">Eén vaste persoon. Geen bureau met wisselende gezichten.</h1>
+        <p style="margin:24px 0 0;font-size:clamp(17px,1.6vw,19px);max-width:60ch">Ik ben Auke Jongbloed. Ik bouw al jaren Product Feed Manager voor WooCommerce, software die bij meer dan 10.000 webwinkels draait. Daar leerde ik dat een systeem pas werkt als iemand het elke dag beheert. Dat doe ik nu voor vakbedrijven. Ik werk vanuit Frankrijk, in jouw tijdzone, in het Nederlands, bereikbaar via telefoon, WhatsApp en video.</p>
+      </div>
+      <figure style="margin:0;background:#1d2b47;border-radius:12px;padding:12px;max-width:440px;justify-self:center;width:100%">
+        <Image src={auke} alt="Auke Jongbloed, aan tafel, in een zwart T-shirt" widths={[360, 560, 896]} sizes="(min-width: 900px) 420px, 90vw" quality={78} loading="eager" fetchpriority="high" style="display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:8px" />
+        <figcaption style="padding:12px 4px 4px;color:#fff;font-size:15px"><strong>Auke Jongbloed</strong><span style="display:block;color:#b9bdc5">Bouwt en beheert je aanvragensysteem</span></figcaption>
+      </figure>
+    </div>
+  </section>
+  <section data-screen-label="02 Hoe ik werk" style="background:#f2f3f7;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <h2 style="margin:0 0 28px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Hoe ik werk</h2>
+      <ul style="list-style:none;margin:0;padding:0;border-top:1px solid #d6d8e0">
+        <li style="display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid #d6d8e0"><span style="font:800 20px/1.4 var(--font-sans);color:#c34209">01</span><span style="font:700 19px/1.4 var(--font-sans);color:#16233d">Geen verzonnen cijfers</span></li>
+        <li style="display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid #d6d8e0"><span style="font:800 20px/1.4 var(--font-sans);color:#c34209">02</span><span style="font:700 19px/1.4 var(--font-sans);color:#16233d">De AI zegt dat hij een AI is</span></li>
+        <li style="display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid #d6d8e0"><span style="font:800 20px/1.4 var(--font-sans);color:#c34209">03</span><span style="font:700 19px/1.4 var(--font-sans);color:#16233d">Jij blijft eigenaar</span></li>
+        <li style="display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid #d6d8e0"><span style="font:800 20px/1.4 var(--font-sans);color:#c34209">04</span><span style="font:700 19px/1.4 var(--font-sans);color:#16233d">Maximaal 1 nieuwe klant per maand</span></li>
+        <li style="display:grid;grid-template-columns:56px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid #d6d8e0"><span style="font:800 20px/1.4 var(--font-sans);color:#c34209">05</span><span style="font:700 19px/1.4 var(--font-sans);color:#16233d">Eén bedrijf per vak per regio</span></li>
+      </ul>
+    </div>
+  </section>
+  <section data-screen-label="03 Beeld" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <h2 style="margin:0 0 8px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Even kennismaken</h2>
+      <p style="margin:0 0 28px">In 60 seconden vertel ik wie ik ben en hoe ik werk.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px">
+        <div>
+          <div style="position:relative;aspect-ratio:16/9;border:2px dashed #9aa0ad;border-radius:12px;overflow:hidden">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;background:#f4f5f9;color:#4b5563;font-size:15px;font-weight:600">Video van Auke, ongeveer 60 seconden (poster of still)</div>
+          </div>
+          <p style="margin:8px 0 0;font-size:14px;color:#4b5563">Placeholder: video van ongeveer 60 seconden. Start niet automatisch.</p>
+        </div>
+        <div>
+          <div style="position:relative;aspect-ratio:16/9;border:2px dashed #9aa0ad;border-radius:12px;overflow:hidden">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;background:#f4f5f9;color:#4b5563;font-size:15px;font-weight:600">Echte foto van Auke aan het werk</div>
+          </div>
+          <p style="margin:8px 0 0;font-size:14px;color:#4b5563">Placeholder: echte foto van Auke aan het werk. Geen stock.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-screen-label="04 Slot" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0;font:800 clamp(30px,4.6vw,46px)/1.1 var(--font-sans);letter-spacing:-0.02em;color:#fff">Zie wat er bij jou blijft liggen.</h2>
+      <div style="margin-top:32px"><Btn variant="primary" href="/scan/" label="Vraag je gratis Aanvragen Scan aan" /></div>
+      <p style="margin:16px 0 0;color:#d4d7de;font-size:15px">Je krijgt binnen 2 minuten een WhatsApp van Sam. Dat is meteen je eerste demo.</p>
+    </div>
+  </section>
+</main>
+</Base>

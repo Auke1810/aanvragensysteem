@@ -1,0 +1,73 @@
+---
+import { VAKKEN, R } from '../config';
+interface Props { vak?: string; primary?: boolean }
+const { vak, primary = false } = Astro.props;
+const panel = 'margin-top:20px;padding:16px 18px;border-radius:8px;flex-direction:column;gap:12px';
+const mailForm = 'display:flex;flex-wrap:wrap;gap:8px';
+const mailInput = 'flex:1 1 220px;height:48px;padding:0 12px;border:1px solid #9aa0ad;border-radius:6px;font:400 17px/1.2 var(--font-sans)';
+const mailBtn = 'height:48px;padding:0 18px;border-radius:6px;border:1px solid #16233d;background:#fff;color:#16233d;font:700 16px/1 var(--font-sans);cursor:pointer';
+---
+<div class="regiocheck" data-vak={vak ?? ''} data-scan={R.scan} style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;font-family:var(--font-sans);color:#4b5563">
+  <form data-check style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px;align-items:end">
+    {vak ? (
+      <div class="field"><span class="label">Je vak</span><span style="height:50px;display:flex;align-items:center;padding:0 12px;border-radius:6px;background:#f2f3f7;font-size:17px;color:#16233d">{vak}</span></div>
+    ) : (
+      <div class="field"><label class="label">Je vak<select name="vak" class="input" style="margin-top:8px;font-weight:400">{VAKKEN.map((v) => <option value={v}>{v}</option>)}</select></label></div>
+    )}
+    <div class="field"><label class="label">Postcode of plaats<input name="plaats" class="input" style="margin-top:8px;font-weight:400" autocomplete="postal-code" placeholder="bijv. 8911 of Gent"></label></div>
+    <button type="submit" class="h-bg" style="height:50px;padding:0 20px;border-radius:6px;border:1px solid #16233d;background:#fff;color:#16233d;font:700 17px/1 var(--font-sans);cursor:pointer">Check mijn regio</button>
+  </form>
+  <div aria-live="polite">
+    <p data-r="error" hidden style="margin:16px 0 0;color:#a3321c;font-size:16px;font-weight:600">Vul je postcode of plaats in.</p>
+    <div data-r="vrij" hidden style={`${panel};background:#e7f4ec;display:flex`}>
+      <p style="margin:0;color:#17693f;font-size:17px;font-weight:700">✓ Regio vrij. <span style="font-weight:400;color:#16233d"><span data-o="vak"></span> in <span data-o="plaats"></span>: vrij. Vraag je scan aan om de plek te reserveren.</span></p>
+      {primary ? (
+        <a data-scanlink href={R.scan} class="btn btn-primary" style="align-self:flex-start">Plek reserveren via scan<span class="arr" aria-hidden="true">→</span></a>
+      ) : (
+        <a data-scanlink href={R.scan} style="color:#c34209;font-weight:700;font-size:17px">Vraag je scan aan en reserveer de plek →</a>
+      )}
+    </div>
+    <div data-r="bezet" hidden style={`${panel};background:#fbf1dc;display:flex`}>
+      <p style="margin:0;color:#6b4700;font-size:17px;font-weight:700">Bezet. <span style="font-weight:400;color:#16233d">Wil je op de wachtlijst voor een regio ernaast?</span></p>
+      <form data-wacht="bezet" style={mailForm}><input type="email" name="email2" aria-label="E-mailadres" required placeholder="je@bedrijf.nl" style={mailInput}><button type="submit" style={mailBtn}>Zet me op de wachtlijst</button></form>
+    </div>
+    <div data-r="niet" hidden style={`${panel};background:#f2f3f7;display:flex`}>
+      <p style="margin:0;color:#16233d;font-size:17px"><strong>Dit vak is nog niet actief.</strong> Laat je gegevens achter, dan hoor je het als eerste.</p>
+      <form data-wacht="niet_actief" style={mailForm}><input type="email" name="email2" aria-label="E-mailadres" required placeholder="je@bedrijf.nl" style={mailInput}><button type="submit" style={mailBtn}>Hou me op de hoogte</button></form>
+    </div>
+    <p data-r="sent" hidden style="margin:12px 0 0;font-size:16px;color:#16233d">Dank je. Je hoort het van me zodra er iets verandert.</p>
+  </div>
+</div>
+
+<script>
+  import { checkRegio, insert } from '../lib/db';
+  document.querySelectorAll<HTMLElement>('.regiocheck').forEach((root) => {
+    const fixed = root.dataset.vak || '';
+    const form = root.querySelector<HTMLFormElement>('form[data-check]')!;
+    const show = (key: string | null) => root.querySelectorAll<HTMLElement>('[data-r]').forEach((el) => (el.hidden = el.dataset.r !== key));
+    let state = { vak: '', plaats: '' };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const vak = fixed || (form.elements.namedItem('vak') as HTMLSelectElement).value;
+      const input = form.elements.namedItem('plaats') as HTMLInputElement;
+      const plaats = input.value.trim();
+      if (!plaats) { input.setAttribute('aria-invalid', 'true'); return show('error'); }
+      input.removeAttribute('aria-invalid');
+      state = { vak, plaats };
+      const res = await checkRegio(vak, plaats);
+      root.querySelectorAll('[data-o="vak"]').forEach((el) => (el.textContent = vak));
+      root.querySelectorAll('[data-o="plaats"]').forEach((el) => (el.textContent = plaats));
+      const href = `${root.dataset.scan}?vak=${encodeURIComponent(vak)}&plaats=${encodeURIComponent(plaats)}`;
+      root.querySelectorAll<HTMLAnchorElement>('[data-scanlink]').forEach((a) => (a.href = href));
+      show(res);
+    });
+    root.querySelectorAll<HTMLFormElement>('form[data-wacht]').forEach((f) => f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = (f.elements.namedItem('email2') as HTMLInputElement).value.trim();
+      if (!email) return;
+      await insert('wachtlijst', { vak: state.vak, plaats: state.plaats, email, soort: f.dataset.wacht });
+      f.hidden = true;
+      (root.querySelector('[data-r="sent"]') as HTMLElement).hidden = false;
+    }));
+  });
+</script>

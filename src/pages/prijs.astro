@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+import { FP_LEFT } from '../config';
+---
+<Base title="Prijs" description="€ 1.950 opzet en € 495 per maand, excl. btw. Founding Partners betalen € 975 opzet en € 425 per maand, vast voor 24 maanden." active="prijs" footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Prijs" style="background:#f2f3f7;padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+      <div>
+        <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Prijs</p>
+        <h1 style="margin:0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Eén prijs. Alles erin.</h1>
+        <p style="margin:24px 0 0;max-width:48ch"><strong style="color:#16233d">Betaling opzet:</strong> 50% bij de start, 50% bij livegang. Die tweede helft betaal je pas als je oude offertes al zijn benaderd.</p>
+        <p style="margin:12px 0 0"><strong style="color:#16233d">Jaarbetaling:</strong> 2 maanden gratis.</p>
+      </div>
+      <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:clamp(24px,4vw,40px);font-variant-numeric:tabular-nums">
+        <h2 style="margin:0;font:700 21px/1.3 var(--font-sans);color:#16233d">Het Aanvragensysteem</h2>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 32px;margin-top:20px;align-items:baseline">
+          <p style="margin:0"><span style="display:block;font:800 clamp(36px,5vw,48px)/1 var(--font-sans);color:#16233d">€ 1.950</span><span>opzet</span></p>
+          <p style="margin:0"><span style="display:block;font:800 clamp(36px,5vw,48px)/1 var(--font-sans);color:#16233d">€ 495</span><span>per maand</span></p>
+        </div>
+        <p style="margin:20px 0 0;padding-top:16px;border-top:1px solid var(--grey-200)">12 maanden vanaf livegang, daarna maandelijks opzegbaar · excl. btw</p>
+        <div style="margin-top:24px"><Btn variant="primary" full href="/scan/" label="Vraag je gratis Aanvragen Scan aan" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="founding" data-screen-label="02 Founding Partners" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto;border:1px solid #c34209;border-radius:12px;padding:clamp(24px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:32px;align-items:center;position:relative">
+      <span style="position:absolute;top:-13px;left:24px;background:#c34209;color:#fff;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700">Founding Partners</span>
+      <div>
+        <h2 style="margin:0;font:800 clamp(26px,3.6vw,34px)/1.15 var(--font-sans);letter-spacing:-0.02em;color:#16233d;font-variant-numeric:tabular-nums">€ 975 opzet en € 425 per maand, vast voor 24 maanden.</h2>
+        <p style="margin:16px 0 0"><strong style="color:#16233d">In ruil:</strong> nulmeting, korte videoreview na 90 dagen, je cijfers als case, 2 introducties bij collega's in een andere regio.</p>
+      </div>
+      <div style="text-align:center;padding:24px;background:#f4f5f9;border-radius:12px">
+        <p style="margin:0;font-weight:700;color:#16233d">Teller</p>
+        <p style="margin:8px 0 0;font:800 56px/1 var(--font-sans);color:#16233d;font-variant-numeric:tabular-nums">Nog {FP_LEFT}<span style="font-size:24px;color:#687185"> van 5</span></p>
+        <p style="margin:8px 0 0;font-size:14px">Met de hand bijgewerkt.</p>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="03 Te hoog" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:800px;margin:0 auto">
+      <p style="margin:0 0 12px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#f7a57f">Ook als je hem te hoog vindt</p>
+      <p style="margin:0;font:700 clamp(21px,2.6vw,28px)/1.4 var(--font-sans);color:#fff">Eén extra opdracht betaalt bij de meeste vakbedrijven het hele eerste jaar. Reken het na met je eigen opdrachtwaarde. Is dat bij jou niet zo, dan is dit niet het juiste systeem.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="04 Waardestapel" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:800px;margin:0 auto">
+      <h2 style="margin:0 0 28px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Wat erin zit, met de losse waarde.</h2>
+      <table style="width:100%;border-collapse:collapse;border:1px solid var(--grey-200);font-variant-numeric:tabular-nums;color:#16233d">
+        <thead><tr><th scope="col" style="text-align:left;padding:14px 20px;background:#f4f5f9;font-size:15px">Onderdeel</th><th scope="col" style="text-align:right;padding:14px 20px;background:#f4f5f9;font-size:15px">Losse waarde</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Website, 10 pagina's, mobiel eerst</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 3.500</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Beheer 12 maanden</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.800</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">6 dienst- en regiopagina's bij de start</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.200</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Google Bedrijfsprofiel</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 400</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Meting</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 450</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">WhatsApp-opvolging met AI</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.500</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Inbox en app, 12 maanden</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 600</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Reviewautomatisering</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 400</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Local SEO en AIEO, 12 maanden</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 3.600</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Content: 24 stukken plus Google-posts</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 2.400</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Twee reactivatiecampagnes</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.500</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Groeipartner</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.200</td></tr>
+          <tr><td style="padding:12px 20px;border-top:1px solid var(--grey-200)">Bonussen</td><td style="padding:12px 20px;border-top:1px solid var(--grey-200);text-align:right;white-space:nowrap">€ 1.590</td></tr>
+          <tr><th scope="row" style="text-align:left;padding:14px 20px;border-top:2px solid #16233d">Totaal jaar 1</th><td style="padding:14px 20px;border-top:2px solid #16233d;text-align:right;font-weight:800;white-space:nowrap">ca. € 20.140</td></tr>
+          <tr><th scope="row" style="text-align:left;padding:14px 20px;border-top:1px solid var(--grey-200);background:#fdeee8">Jouw prijs jaar 1</th><td style="padding:14px 20px;border-top:1px solid var(--grey-200);text-align:right;background:#fdeee8"><strong style="font-size:20px">€ 7.890</strong><span style="display:block;font-size:14px;color:#4b5563">Founding Partner € 6.075</span></td></tr>
+        </tbody>
+      </table>
+      <p style="margin:12px 0 0;font-size:15px">Losse waarden zijn schattingen op basis van gangbare marktprijzen.</p>
+    </div>
+  </section>
+
+  <section data-screen-label="05 Vergelijking" style="background:#f2f3f7;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <h2 style="margin:0 0 28px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Wat je er anders voor zou kopen.</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px">
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px"><h3 style="margin:0;font:700 19px/1.3 var(--font-sans);color:#16233d">Webbureau</h3><p style="margin:6px 0 0">Mooie site, geen opvolging.</p></div>
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px"><h3 style="margin:0;font:700 19px/1.3 var(--font-sans);color:#16233d">Leadplatform</h3><p style="margin:6px 0 0">Betalen per gedeelde lead.</p></div>
+        <div style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px"><h3 style="margin:0;font:700 19px/1.3 var(--font-sans);color:#16233d">SEO-bureau</h3><p style="margin:6px 0 0">Rapporten.</p></div>
+        <div style="background:#fff;border:2px solid #16233d;border-radius:12px;padding:23px"><h3 style="margin:0;font:700 19px/1.3 var(--font-sans);color:#16233d">Het Aanvragensysteem</h3><p style="margin:6px 0 0;color:#16233d">Alle zes stappen, één vaste partner, garantie.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="06 Vragen" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:800px;margin:0 auto">
+      <h2 style="margin:0 0 24px;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Vragen over de prijs</h2>
+      <div style="border-top:1px solid var(--grey-200)">
+        <details style="border-bottom:1px solid var(--grey-200)"><summary style="cursor:pointer;padding:20px 0;display:flex;justify-content:space-between;gap:16px;font-weight:700;font-size:18px;color:#16233d">Wat als ik na 12 maanden stop?<span class="chev" aria-hidden="true" style="transition:transform 180ms">▾</span></summary><p style="margin:0 0 20px">Dat kan. Na 12 maanden is het maandelijks opzegbaar. Je krijgt een kopie van je site, je content en een export van je contacten, en ik help je verhuizen.</p></details>
+        <details style="border-bottom:1px solid var(--grey-200)"><summary style="cursor:pointer;padding:20px 0;display:flex;justify-content:space-between;gap:16px;font-weight:700;font-size:18px;color:#16233d">Zit er btw bij?<span class="chev" aria-hidden="true" style="transition:transform 180ms">▾</span></summary><p style="margin:0 0 20px">Nee. Alle prijzen zijn excl. btw.</p></details>
+        <details style="border-bottom:1px solid var(--grey-200)"><summary style="cursor:pointer;padding:20px 0;display:flex;justify-content:space-between;gap:16px;font-weight:700;font-size:18px;color:#16233d">Kan ik per maand betalen?<span class="chev" aria-hidden="true" style="transition:transform 180ms">▾</span></summary><p style="margin:0 0 20px">Ja. Het maandbedrag betaal je per maand. Betaal je per jaar, dan krijg je 2 maanden gratis.</p></details>
+        <details style="border-bottom:1px solid var(--grey-200)"><summary style="cursor:pointer;padding:20px 0;display:flex;justify-content:space-between;gap:16px;font-weight:700;font-size:18px;color:#16233d">Wat gebeurt er met mijn site als ik stop?<span class="chev" aria-hidden="true" style="transition:transform 180ms">▾</span></summary><p style="margin:0 0 20px">Die blijft van jou. Je krijgt een kopie en ik help je verhuizen.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+</Base>

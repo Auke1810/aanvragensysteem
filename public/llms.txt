@@ -1,0 +1,17 @@
+# Het Aanvragensysteem
+
+> Het Aanvragensysteem van Auke Jongbloed bouwt en beheert het complete aanvragensysteem voor lokale vakbedrijven (3 tot 25 mensen, opdrachten vanaf ongeveer € 2.500) in Nederland en Vlaanderen. Eén product, één vast maandbedrag, één bedrijf per vak per regio.
+
+De Aanvragenroute heeft zes stappen: gevonden worden, vertrouwen, aanvraag, opvolging (Sam, een AI-assistent, reageert binnen 2 minuten via WhatsApp), van offerte naar opdracht en vaste klant.
+
+## Belangrijkste pagina's
+
+- [Het Aanvragensysteem](https://aanvragensysteem.nl/aanvragensysteem/): de volledige uitleg van het product
+- [Voor wie](https://aanvragensysteem.nl/voor-wie/): de vijf criteria
+- [Voor dakdekkers](https://aanvragensysteem.nl/voor/dakdekkers/): eerste actieve vak
+- [Prijs](https://aanvragensysteem.nl/prijs/): € 1.950 opzet en € 495 per maand, excl. btw
+- [Garantie](https://aanvragensysteem.nl/garantie/): de Zorgeloos Garantie
+- [Vragen](https://aanvragensysteem.nl/vragen/): alle veelgestelde vragen
+- [Gratis Aanvragen Scan](https://aanvragensysteem.nl/scan/): persoonlijke video en rapport binnen 2 werkdagen
+- [Over Auke](https://aanvragensysteem.nl/over-auke/)
+- [Contact](https://aanvragensysteem.nl/contact/)

@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import Btn from '../../components/Btn.astro';
+import LiveLabel from '../../components/LiveLabel.astro';
+import SamPhone from '../../components/SamPhone.astro';
+import { SITE } from '../../config';
+---
+<Base title="Bedankt voor je scanaanvraag" description="Je scanaanvraag is binnen. Binnen 2 minuten krijg je een WhatsApp van Sam." footerBorder noindex>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Bedankt" style="background:#16233d;padding:clamp(40px,7vw,88px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+      <div>
+        <LiveLabel label="Live op deze site" />
+        <h1 style="margin:20px 0 0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#fff">Check je WhatsApp.</h1>
+        <p style="margin:24px 0 0;font-size:clamp(17px,1.6vw,19px);color:#d4d7de;max-width:50ch">Sam stuurt je binnen 2 minuten een bericht. Zo werkt stap 4 straks ook voor jouw klanten. Geen WhatsApp gekozen? Dan krijg je een e-mail.</p>
+        <div style="margin-top:32px"><Btn variant="primary" href={SITE.whatsapp} label="Open WhatsApp" /></div>
+        <p style="margin:16px 0 0;color:#d4d7de;font-size:15px;font-variant-numeric:tabular-nums">Aanvraag ontvangen om <span data-now>zojuist</span>.</p>
+      </div>
+      <div style="display:flex;justify-content:center"><div style="width:100%;max-width:340px;background:#fff;border-radius:16px;padding:16px 10px 12px"><SamPhone preset="bedankt" /></div></div>
+    </div>
+  </section>
+  <section data-screen-label="02 Wat er nu gebeurt" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <h2 style="margin:0;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Wat er nu gebeurt</h2>
+      <ol style="list-style:none;margin:32px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(calc(33.33% - 24px),calc((760px - 100%) * 999),100%),1fr));gap:20px">
+        <li style="border-top:2px solid #16233d;padding-top:16px"><p style="margin:0 0 8px;font-weight:800;color:#c34209">Vandaag</p><p style="margin:0;color:#16233d">Je krijgt een bericht van Sam.</p></li>
+        <li style="border-top:2px solid #16233d;padding-top:16px"><p style="margin:0 0 8px;font-weight:800;color:#c34209">Binnen 2 werkdagen</p><p style="margin:0;color:#16233d">Je krijgt je persoonlijke video en het rapport.</p></li>
+        <li style="border-top:2px solid #16233d;padding-top:16px"><p style="margin:0 0 8px;font-weight:800;color:#c34209">Daarna</p><p style="margin:0;color:#16233d">Jij kiest of we bellen.</p></li>
+      </ol>
+      <p style="margin:32px 0 0;font-size:15px">Deed je mee aan de reactietest? Dan zeg ik in de video meteen dat de proefaanvraag van ons kwam.</p>
+    </div>
+  </section>
+</main>
+<script>
+  const f = (x: Date) => String(x.getHours()).padStart(2, '0') + ':' + String(x.getMinutes()).padStart(2, '0');
+  const d = new Date();
+  document.querySelectorAll('[data-now], .sam-phone [data-clock-in], .sam-phone [data-status]').forEach((el) => (el.textContent = f(d)));
+  document.querySelectorAll('.sam-phone [data-clock-out]').forEach((el) => (el.textContent = 'vóór ' + f(new Date(d.getTime() + 120000))));
+</script>
+</Base>

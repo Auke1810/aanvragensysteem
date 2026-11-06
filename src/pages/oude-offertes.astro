@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+import Rekensom from '../components/Rekensom.astro';
+---
+<Base title="Oude offertes terughalen" description="Hoeveel offertes liggen er bij jou stil? Reken het uit en lees hoe we oude offertes in week 1 persoonlijk benaderen." footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Hero en rekensom" style="background:#f2f3f7;padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto">
+      <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Oude offertes</p>
+      <h1 style="margin:0;font:800 clamp(34px,5.2vw,54px)/1.06 var(--font-sans);letter-spacing:-0.02em;color:#16233d;max-width:20ch;text-wrap:balance">Je oude offertes zijn werk dat op de plank ligt.</h1>
+      <div style="margin-top:36px"><Rekensom stilLabel="Deel dat stil viel (%)" note="Dit is jouw rekensom, geen belofte." /></div>
+    </div>
+  </section>
+  <section data-screen-label="02 Zo halen we ze terug" style="background:#fff;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
+      <div>
+        <p style="margin:0 0 12px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Zo halen we ze terug</p>
+        <h2 style="margin:0;font:800 clamp(28px,4.2vw,40px)/1.12 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Eén persoonlijk bericht, met een echte aanleiding.</h2>
+        <ul style="list-style:none;margin:24px 0 0;padding:0;color:#16233d">
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800">✓</span>Een persoonlijk WhatsApp-bericht met een echte aanleiding</li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800">✓</span>Van de AI die zegt dat hij een AI is</li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800">✓</span>Met een afmeldzin</li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);border-bottom:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800">✓</span>Alleen offertes en oud-klanten tot 3 jaar terug</li>
+        </ul>
+        <p style="margin:20px 0 0;color:#16233d">Nieuwe offertes worden vanaf livegang automatisch opgevolgd, zodat er geen nieuwe stapel ontstaat.</p>
+        <p style="margin:24px 0 0;padding:16px 18px;background:#f4f5f9;border-radius:8px;color:#16233d"><strong>Binnen het systeem:</strong> de eerste campagne draait in week 1, en de tweede helft van de opzet betaal je pas daarna.</p>
+      </div>
+      <div>
+        <p style="margin:0 0 12px;font-weight:700;color:#16233d">Voorbeeldbericht</p>
+        <blockquote style="margin:0;background:#f4f5f9;border:1px solid var(--grey-200);border-radius:12px;padding:28px;font-size:19px;line-height:1.55;color:#16233d">Hoi &#123;voornaam&#125;, dit is een automatisch bericht namens &#123;bedrijf&#125;. Je vroeg vorig jaar een offerte aan voor je dak. Voor de winter is een goed moment om het te laten nakijken. Zal &#123;eigenaar&#125; je even bellen? Liever geen berichten meer? Stuur STOP.</blockquote>
+      </div>
+    </div>
+  </section>
+  <section data-screen-label="03 Slot" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0;font:800 clamp(30px,4.6vw,46px)/1.1 var(--font-sans);letter-spacing:-0.02em;color:#fff">Begin bij wat er al ligt.</h2>
+      <p style="margin:20px 0 0;color:#d4d7de;font-size:18px">In de gratis scan reken ik met jouw cijfers uit wat er op de plank ligt.</p>
+      <div style="margin-top:32px"><Btn variant="primary" href="/scan/?bron=oude-offertes" label="Haal mijn oude offertes terug" /></div>
+    </div>
+  </section>
+</main>
+</Base>

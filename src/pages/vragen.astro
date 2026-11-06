@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+const G: [string, string, [string, string][]][] = [
+  ['systeem', 'Het systeem en de zes stappen', [
+    ['Wat is Het Aanvragensysteem?', 'De complete route van eerste zoekopdracht tot vaste klant, gebouwd en beheerd door mij. De zes stappen zijn gevonden worden, vertrouwen, aanvraag, opvolging, offerte en vaste klant. Jij belt alleen nog voorbereid terug.'],
+    ['We hebben al iemand die opneemt. Wat voegt dit toe?', 'Het systeem helpt die persoon met voorbereide gesprekken, één overzicht en ook \'s avonds en in het weekend een antwoord. Daarnaast pakt het de stappen op waar vaak niemand tijd voor heeft: offertes opvolgen en oud-klanten benaderen.'],
+    ['Hoe snel ben ik live?', 'Binnen 4 weken nadat je foto\'s en goedkeuring binnen zijn. Je oude offertes benaderen we al in week 1.'],
+    ['Moet mijn huidige site weg?', 'Ja, ik bouw een nieuwe site en verhuis je oude gratis. Je raakt niets kwijt.'],
+    ['Hoeveel werk is het voor mij?', 'Ongeveer 3 uur bij de start, daarna een paar minuten per offerte. Een intake van 45 minuten, foto\'s, teksten goedkeuren binnen 5 werkdagen, een lijst oude offertes en verstuurde offertes aanmelden.'],
+    ['Met wie heb ik contact?', 'Met mij, Auke. Eén vaste persoon, in het Nederlands, via telefoon, WhatsApp en video.'],
+    ['Werk je ook voor mijn concurrent?', 'Nee. Ik werk met één bedrijf per vak per regio.'],
+    ['Hoeveel klanten neem je aan?', 'Maximaal 1 nieuwe klant per maand.']]],
+  ['sam', 'Sam en WhatsApp', [
+    ['Klinkt een AI niet als een robot?', 'Nee, want Sam zegt eerlijk dat hij een AI is, stelt twee of drie vragen en plant een moment. Het echte gesprek voer jij.'],
+    ['Wat doet Sam nooit?', 'Prijzen noemen, afspraken toezeggen die jij niet kunt nakomen, of doen alsof hij een mens is.'],
+    ['Wat gebeurt er met een gemiste oproep?', 'Die krijgt binnen 2 minuten een WhatsApp of sms. Daarna gaat het net als bij een formulier.']]],
+  ['offertes', 'Offertes en oud-klanten', [
+    ['Hoe werkt de offerte-opvolging?', 'Jij meldt een verstuurde offerte met één handeling aan, daarna volgt het systeem hem op met persoonlijke berichten, bijvoorbeeld na 3, 7 en 14 dagen. De berichten stoppen zodra de klant reageert. Jij markeert gewonnen of verloren.'],
+    ['Wat gebeurt er met mijn oude offertes?', 'In week 1 krijgen ze een persoonlijk bericht met een echte aanleiding. Nieuwe offertes worden vanaf livegang automatisch opgevolgd, zodat er geen nieuwe stapel ontstaat.'],
+    ['Wat doen jullie met oud-klanten?', 'Twee keer per jaar benaderen we ze, bijvoorbeeld met onderhoud of uitbreiding. Na elke klus vragen we om een review en een doorverwijzing.'],
+    ['Kunnen klanten zich afmelden?', 'Ja. Elk bericht dat geen direct antwoord is, heeft een afmeldzin. Wie STOP stuurt, krijgt niets meer.']]],
+  ['prijs', 'Prijs en contract', [
+    ['Wat kost het?', '€ 1.950 opzet en € 495 per maand, excl. btw. Founding Partners betalen minder.'],
+    ['Hoe lang loopt het contract?', '12 maanden vanaf livegang. Daarna is het maandelijks opzegbaar.'],
+    ['Hoe betaal ik de opzet?', '50% bij de start en 50% bij livegang. Die tweede helft betaal je pas als je oude offertes al zijn benaderd.'],
+    ['Kan ik per jaar betalen?', 'Ja. Bij jaarbetaling krijg je 2 maanden gratis.']]],
+  ['garantie', 'Garantie', [
+    ['Wat als het niets oplevert?', 'Dan werk ik tot 3 maanden gratis door. Dat geldt als je in de 90 dagen na livegang niet meer aanvragen hebt dan in dezelfde 90 dagen vorig jaar.'],
+    ['Waarom een garantie op aanvragen en niet op opdrachten?', 'Omdat het ook van jou afhangt of een aanvraag een opdracht wordt (prijs, planning, gesprek). Gewonnen offertes staan wel als meetpunt in je maandrapport.'],
+    ['Wat telt als aanvraag?', 'Een uniek contact via formulier, telefoon of WhatsApp met een concrete vraag over een klus. Spam, sollicitaties en leveranciers tellen niet. Afspraken uit reactivatie en offerte-opvolging tellen apart, als extra.'],
+    ['Wat valt buiten de garantie?', 'Terugbetaling van maandkosten en vergoeding van gemiste omzet. Gratis doorwerken is maximaal 3 maanden.']]],
+  ['gegevens', 'Gegevens en AI', [
+    ['Van wie zijn mijn site en gegevens?', 'Van jou. Stop je na het eerste jaar, dan krijg je een kopie van je site, je content en een export van je contacten.'],
+    ['Krijgen mensen berichten zonder toestemming?', 'Nee. WhatsApp-berichten hebben een eigen vinkje, nooit vooraf aangevinkt. Elk bericht dat geen direct antwoord is, heeft een afmeldzin.'],
+    ['Waar staan de gegevens?', 'In de EU. De website staat bij een hostingpartij in de EU, en alle verwerkers staan in de privacyverklaring.']]]
+];
+const groups = G.map(([id, title, items]) => ({ id: 'v-' + id, hid: 'h-' + id, href: '#v-' + id, title, items: items.map(([q, a]) => ({ q, a })) }));
+const faq = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: groups.flatMap((g) => g.items.map((it) => ({ '@type': 'Question', name: it.q, acceptedAnswer: { '@type': 'Answer', text: it.a } }))) };
+---
+<Base schema={faq} title="Veelgestelde vragen" description="Alle vragen over Het Aanvragensysteem op één pagina: de zes stappen, Sam en WhatsApp, offertes, prijs, garantie en gegevens." footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Vragen" style="background:#fff;padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+      <div style="flex:1 1 260px">
+        <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Vragen</p>
+        <h1 style="margin:0;font:800 clamp(34px,5vw,48px)/1.06 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Alle vragen op één pagina.</h1>
+        <nav aria-label="Groepen" style="margin-top:24px"><ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px">
+          {groups.map((g) => <li><a href={g.href} style="display:inline-block;padding:6px 0;font-weight:600">{g.title}</a></li>)}
+        </ul></nav>
+      </div>
+      <div style="flex:3 1 480px;min-width:0;display:flex;flex-direction:column;gap:48px">
+        {groups.map((g) => (
+          <section id={g.id} aria-labelledby={g.hid}>
+            <h2 id={g.hid} style="margin:0 0 8px;font:800 clamp(24px,3vw,30px)/1.2 var(--font-sans);color:#16233d">{g.title}</h2>
+            <div style="border-top:1px solid var(--grey-200)">
+              {g.items.map((it) => (
+                <details style="border-bottom:1px solid var(--grey-200)"><summary style="cursor:pointer;padding:18px 0;display:flex;justify-content:space-between;gap:16px;font-weight:700;font-size:18px;color:#16233d">{it.q}<span class="chev" aria-hidden="true" style="transition:transform 180ms">▾</span></summary><p style="margin:0 0 18px">{it.a}</p></details>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section data-screen-label="02 Slot" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0;font:800 clamp(30px,4.6vw,46px)/1.1 var(--font-sans);letter-spacing:-0.02em;color:#fff">Staat je vraag er niet bij?</h2>
+      <p style="margin:20px 0 0;color:#d4d7de;font-size:18px">Vraag de scan aan. Sam stelt je daarna twee korte vragen, en jij kunt er zelf een terugstellen.</p>
+      <div style="margin-top:32px"><Btn variant="primary" href="/scan/" label="Vraag je gratis Aanvragen Scan aan" /></div>
+      <a href="/contact/" style="margin-top:16px;color:#fff;font-weight:700;text-decoration:underline">Of neem direct contact op</a>
+    </div>
+  </section>
+</main>
+</Base>

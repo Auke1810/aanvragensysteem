@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /scan/bedankt/
+
+Sitemap: https://aanvragensysteem.nl/sitemap.xml

@@ -1,0 +1,31 @@
+---
+interface Props { note?: string; stilLabel?: string }
+const { note = 'Dit is geen belofte. Het is jouw eigen rekensom.', stilLabel = 'Deel dat stil valt (%)' } = Astro.props;
+---
+<div class="rekensom" style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:24px;font-family:var(--font-sans);color:#4b5563">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(clamp(calc(33.33% - 24px),calc((760px - 100%) * 999),100%),1fr));gap:16px">
+    <label class="field label">Offertes per jaar<input data-a class="input" inputmode="numeric" placeholder="bijv. 120" style="font-weight:400;font-variant-numeric:tabular-nums"></label>
+    <label class="field label">{stilLabel}<input data-b class="input" inputmode="numeric" placeholder="bijv. 40" style="font-weight:400;font-variant-numeric:tabular-nums"></label>
+    <label class="field label">Gemiddelde opdrachtwaarde (€)<input data-c class="input" inputmode="numeric" placeholder="bijv. 6000" style="font-weight:400;font-variant-numeric:tabular-nums"></label>
+  </div>
+  <div aria-live="polite" style="margin-top:20px;padding:20px;border-radius:8px;background:#f2f3f7">
+    <p data-has hidden style="margin:0;font:800 clamp(22px,3.4vw,30px)/1.2 var(--font-sans);letter-spacing:-0.015em;color:#16233d;font-variant-numeric:tabular-nums">Er ligt ongeveer € <span data-bedrag></span> aan offertes stil.</p>
+    <p data-empty style="margin:0;font-size:17px;color:#16233d">Vul de drie velden in. Dan zie je wat er ongeveer stil ligt.</p>
+    <p style="margin:8px 0 0;font-size:15px;color:#4b5563">{note}</p>
+  </div>
+</div>
+
+<script>
+  const num = (s: string) => { const n = parseFloat(s.replace(/\./g, '').replace(',', '.').replace(/[^0-9.]/g, '')); return isNaN(n) ? null : n; };
+  document.querySelectorAll<HTMLElement>('.rekensom').forEach((root) => {
+    const [a, b, c] = ['a', 'b', 'c'].map((k) => root.querySelector<HTMLInputElement>(`[data-${k}]`)!);
+    const update = () => {
+      const x = num(a.value), y = num(b.value), z = num(c.value);
+      const has = x != null && y != null && z != null && x > 0 && z > 0;
+      (root.querySelector('[data-has]') as HTMLElement).hidden = !has;
+      (root.querySelector('[data-empty]') as HTMLElement).hidden = has;
+      if (has) root.querySelector('[data-bedrag]')!.textContent = Math.round(x! * Math.min(y!, 100) / 100 * z!).toLocaleString('nl-NL');
+    };
+    [a, b, c].forEach((el) => el.addEventListener('input', update));
+  });
+</script>

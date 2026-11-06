@@ -1,0 +1,46 @@
+---
+import { PRESETS, type Msg } from '../lib/samPresets';
+interface Props { preset?: string; caption?: string; title?: string; messages?: Msg[]; id?: string; clockIn?: string; clockOut?: string; status?: string }
+const p = PRESETS[Astro.props.preset ?? 'home'] ?? PRESETS.home;
+const msgs = Astro.props.messages ?? p.msgs;
+const title = Astro.props.title ?? p.title;
+const caption = Astro.props.caption ?? p.caption;
+const id = Astro.props.id;
+const clockIn = Astro.props.clockIn ?? p.in;
+const clockOut = Astro.props.clockOut ?? p.out;
+const status = Astro.props.status ?? p.status;
+const aria = 'WhatsApp-gesprek met Sam: ' + msgs.map((m) => m.text).join(' ');
+---
+<figure class="sam-phone" id={id} style="margin:0 auto;width:100%;max-width:330px;font-family:var(--font-sans)">
+  <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+    <span style="display:inline-flex;gap:10px;align-items:center;padding:6px 12px;border:1px solid var(--grey-200);border-radius:999px;background:#fff;font:700 13px/1.2 var(--font-sans);color:#16233d;font-variant-numeric:tabular-nums"><span><span data-clock-in>{clockIn}</span> {p.inLabel ?? 'aanvraag'}</span><span aria-hidden="true" style="color:#a5a9b8">→</span><span><span data-clock-out>{clockOut}</span> {p.outLabel ?? 'antwoord'}</span></span>
+  </div>
+  <div role="img" aria-label={aria} data-aria style="background:#0f1930;border-radius:40px;padding:10px;box-shadow:0 8px 24px rgba(22,35,61,.18)">
+    <div style="background:#eceae4;border-radius:31px;overflow:hidden;display:flex;flex-direction:column;min-height:520px">
+      <div style="display:flex;justify-content:space-between;padding:10px 22px 4px;font:700 12px/1 var(--font-sans);color:#16233d;font-variant-numeric:tabular-nums"><span data-status>{status}</span><span aria-hidden="true">●●● 4G</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#16233d;color:#fff">
+        <span aria-hidden="true" style="width:36px;height:36px;border-radius:999px;background:#fff;color:#16233d;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex:none">S</span>
+        <span style="display:flex;flex-direction:column;gap:2px;min-width:0"><span data-title style="font-weight:700;font-size:15px">{title}</span><span style="font-size:12px;color:#d4d7de">{p.subtitle}</span></span>
+      </div>
+      <div data-msgs style="flex:1;padding:14px 12px 16px;display:flex;flex-direction:column;gap:8px">
+        {msgs.map((m) => m.sys ? (
+          <div class="m-sys">{m.text}</div>
+        ) : m.klant ? (
+          <div class="m-klant"><span>{m.text}</span><span class="m-time">{m.time}</span></div>
+        ) : (
+          <div class="m-sam"><span>{m.text}</span><span class="m-time">{m.time}</span></div>
+        ))}
+      </div>
+    </div>
+  </div>
+  {caption && <figcaption style="margin-top:12px;text-align:center;font-size:13px;line-height:1.5;color:#4b5563">{caption}</figcaption>}
+</figure>
+
+<style is:global>
+  .sam-phone .m-sys{align-self:center;max-width:92%;text-align:center;background:#fff8e6;color:#5c4a1a;border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.4;font-variant-numeric:tabular-nums}
+  .sam-phone .m-sam,.sam-phone .m-typing{align-self:flex-start;max-width:84%;background:#fff;color:#16233d;border-radius:4px 12px 12px 12px;padding:8px 10px 6px;font-size:14px;line-height:1.45;box-shadow:0 1px 1px rgba(22,35,61,.08)}
+  .sam-phone .m-typing{color:#687185;padding:8px 12px;font-size:13px;box-shadow:none}
+  .sam-phone .m-klant{align-self:flex-end;max-width:80%;background:#dde4f0;color:#16233d;border-radius:12px 4px 12px 12px;padding:8px 10px 6px;font-size:14px;line-height:1.45}
+  .sam-phone .m-time{display:block;text-align:right;font-size:11px;color:#687185;margin-top:2px;font-variant-numeric:tabular-nums}
+  .sam-phone .m-klant .m-time{color:#4b5563}
+</style>

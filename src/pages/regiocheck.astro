@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import RegioCheck from '../components/RegioCheck.astro';
+---
+<Base title="Regiocheck: is jouw regio nog vrij?" description="Ik werk met één bedrijf per vak per regio. Check of jouw vak in jouw regio nog vrij is." bg="#f2f3f7">
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6;background:#f2f3f7">
+  <section data-screen-label="01 Regiocheck" style="padding:clamp(48px,8vw,96px) 20px">
+    <div style="max-width:880px;margin:0 auto">
+      <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Regiocheck</p>
+      <h1 style="margin:0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Is jouw regio nog vrij?</h1>
+      <p style="margin:24px 0 36px;font-size:clamp(17px,1.6vw,19px);max-width:60ch">Twee bedrijven met hetzelfde vak in dezelfde plaats kun je niet allebei bovenaan krijgen in Google Maps. Daarom werk ik met één bedrijf per vak per regio.</p>
+      <RegioCheck primary />
+      <p style="margin:20px 0 0;font-size:15px">De lijst met bezette regio's werk ik met de hand bij. Bezet? Dan kun je op de wachtlijst voor een regio ernaast.</p>
+    </div>
+  </section>
+</main>
+</Base>

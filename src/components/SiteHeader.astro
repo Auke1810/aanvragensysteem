@@ -1,0 +1,70 @@
+---
+import Btn from './Btn.astro';
+import { R } from '../config';
+interface Props { active?: '' | 'systeem' | 'voorwie' | 'prijs' | 'garantie' | 'auke' }
+const { active = '' } = Astro.props;
+const col = (id: string) => (active === id ? '#c34209' : '#16233d');
+const cur = (id: string) => (active === id ? 'page' : undefined);
+const link = 'padding:10px 12px;font-size:16px;font-weight:600;text-decoration:none;border-radius:6px';
+const mob = 'padding:14px 0;font-size:18px;font-weight:700;color:#16233d;text-decoration:none';
+---
+<header class="site-header">
+  <a href="#hoofdinhoud" class="skip">Naar de inhoud</a>
+  <div style="background:#fff;border-bottom:1px solid var(--grey-200)">
+    <div style="max-width:1120px;margin:0 auto;padding:0 20px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <a href={R.home} aria-label="Aanvragensysteem, naar de homepage" class="h-none" style="font:800 21px/1 var(--font-sans);letter-spacing:-0.02em;text-decoration:none;white-space:nowrap"><span style="color:#16233d">aanvragen</span><span style="color:#e9530d">systeem</span></a>
+      <nav aria-label="Hoofdmenu" class="nav-desktop">
+        <a href={R.systeem} aria-current={cur('systeem')} class="h-nav" style={`${link};color:${col('systeem')}`}>Het Aanvragensysteem</a>
+        <div style="position:relative">
+          <button type="button" id="dd-btn" aria-expanded="false" aria-controls="menu-voorwie" class="h-nav" style={`padding:10px 12px;font:600 16px/1.2 var(--font-sans);color:${col('voorwie')};background:none;border:0;border-radius:6px;cursor:pointer;display:flex;gap:6px;align-items:center`}>Voor wie <span aria-hidden="true" style="font-size:12px">▾</span></button>
+          <div id="menu-voorwie" hidden style="position:absolute;top:calc(100% + 8px);left:0;width:300px;background:#fff;border:1px solid var(--grey-200);border-radius:12px;box-shadow:0 8px 24px rgba(22,35,61,.10);padding:8px;z-index:60">
+            <a href={R.voorWie} class="h-soft" style="display:block;padding:12px;border-radius:8px;text-decoration:none;color:#16233d"><span style="display:block;font-weight:700">Past het bij jou?</span><span style="display:block;font-size:14px;color:#4b5563;margin-top:2px">De vijf criteria. Die zijn leidend, niet je vak.</span></a>
+            <div style="font:700 12px/1.2 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#687185;padding:12px 12px 4px">Nu actief voor</div>
+            <a href={R.dakdekkers} class="h-soft" style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:8px;text-decoration:none;color:#16233d;font-weight:600">Dakdekkers <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <a href={R.prijs} aria-current={cur('prijs')} class="h-nav" style={`${link};color:${col('prijs')}`}>Prijs</a>
+        <a href={R.garantie} aria-current={cur('garantie')} class="h-nav" style={`${link};color:${col('garantie')}`}>Garantie</a>
+        <a href={R.overAuke} aria-current={cur('auke')} class="h-nav" style={`${link};color:${col('auke')}`}>Over Auke</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:8px">
+        <Btn variant="dark" small arrow={false} href={R.scan} label="Gratis scan" />
+        <button type="button" id="menu-btn" class="nav-mobile-btn" aria-expanded="false" aria-controls="mobiel-menu" style="min-width:48px;height:44px;padding:0 12px;border:1px solid #cdd0d6;border-radius:6px;background:#fff;font:700 15px/1 var(--font-sans);color:#16233d;cursor:pointer">Menu</button>
+      </div>
+    </div>
+    <nav id="mobiel-menu" aria-label="Hoofdmenu mobiel" hidden style="border-top:1px solid var(--grey-200);padding:8px 20px 20px;flex-direction:column;max-height:calc(100vh - 80px);overflow:auto;background:#fff">
+      <a href={R.systeem} style={`${mob};border-bottom:1px solid var(--grey-200)`}>Het Aanvragensysteem</a>
+      <a href={R.voorWie} style={mob}>Voor wie</a>
+      <a href={R.dakdekkers} style="padding:10px 0 14px 16px;font-size:17px;color:#4b5563;text-decoration:none;border-bottom:1px solid var(--grey-200)">Dakdekkers · nu actief</a>
+      <a href={R.prijs} style={`${mob};border-bottom:1px solid var(--grey-200)`}>Prijs</a>
+      <a href={R.garantie} style={`${mob};border-bottom:1px solid var(--grey-200)`}>Garantie</a>
+      <a href={R.overAuke} style={mob}>Over Auke</a>
+    </nav>
+  </div>
+</header>
+<div aria-hidden="true" style="height:var(--hdr-h,69px)"></div>
+
+<style>
+  .site-header{position:fixed;top:0;left:0;right:0;z-index:50;font-family:var(--font-sans)}
+  .nav-desktop{display:none;align-items:center;gap:4px}
+  .nav-mobile-btn{display:inline-block}
+  #mobiel-menu:not([hidden]){display:flex}
+  @media (min-width:1024px){
+    .nav-desktop{display:flex}
+    .nav-mobile-btn{display:none}
+    #mobiel-menu{display:none!important}
+  }
+</style>
+
+<script>
+  const ddBtn = document.getElementById('dd-btn');
+  const dd = document.getElementById('menu-voorwie');
+  const mBtn = document.getElementById('menu-btn');
+  const mMenu = document.getElementById('mobiel-menu');
+  const setDd = (open: boolean) => { if (!ddBtn || !dd) return; dd.hidden = !open; ddBtn.setAttribute('aria-expanded', String(open)); };
+  const setMenu = (open: boolean) => { if (!mBtn || !mMenu) return; mMenu.hidden = !open; mBtn.setAttribute('aria-expanded', String(open)); mBtn.textContent = open ? 'Sluit' : 'Menu'; };
+  ddBtn?.addEventListener('click', (e) => { e.stopPropagation(); setDd(dd!.hidden); });
+  mBtn?.addEventListener('click', () => setMenu(mMenu!.hidden));
+  document.addEventListener('click', (e) => { const t = e.target as Element; if (dd && !dd.hidden && !t.closest('#menu-voorwie')) setDd(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setDd(false); setMenu(false); } });
+</script>

@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import Btn from '../components/Btn.astro';
+const n = 'Liever leeg dan verzonnen';
+const T = (step: string, label: string, note?: string) => ({ step, label, note: note || n });
+const tiles = [
+  T('Stap 1', 'Bezoekers'), T('Stap 2', 'Deel van de bezoekers dat een scan aanvraagt'), T('Stap 3', 'Scanaanvragen'),
+  T('Stap 4', 'Gemiddelde reactietijd'), T('Stap 4', 'Deel binnen 5 minuten beantwoord'), T('Stap 5', 'Voorstellen verstuurd en gewonnen'),
+  T('Stap 6', 'Reacties op reactivatie'), T('Stap 6', 'Google-reviews'), T('De site', 'Laadtijd en uptime'),
+  T('De site', 'Vermeldingen in AI-antwoorden', 'Liever leeg dan verzonnen. Per kwartaal'), T('Aanbod', 'Founding Partners getekend')
+];
+---
+<Base title="Resultaten" description="Onze eigen cijfers, maandelijks bijgewerkt, met één meetpunt per stap. Liever leeg dan verzonnen." footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6">
+  <section data-screen-label="01 Hero" style="background:#fff;padding:clamp(48px,8vw,96px) 20px clamp(32px,5vw,48px)">
+    <div style="max-width:1120px;margin:0 auto">
+      <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Resultaten</p>
+      <h1 style="margin:0;font:800 clamp(38px,6vw,60px)/1.04 var(--font-sans);letter-spacing:-0.02em;color:#16233d">Onze eigen cijfers. Elke maand.</h1>
+      <div style="margin-top:28px;padding:18px 20px;border:1px solid #16233d;border-radius:12px;max-width:720px">
+        <p style="margin:0;font:700 19px/1.4 var(--font-sans);color:#16233d">Liever leeg dan verzonnen. Cijfers 3 maanden na lancering.</p>
+        <p style="margin:6px 0 0;font-size:15px">Meting loopt sinds oktober 2026. Daarna werk ik deze pagina elke maand bij.</p>
+      </div>
+    </div>
+  </section>
+  <section data-screen-label="02 Tegels" style="background:#f2f3f7;padding:clamp(48px,7vw,80px) 20px">
+    <ul style="max-width:1120px;margin:0 auto;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(max(clamp(calc(25% - 12px),calc((980px - 100%) * 999),calc(50% - 8px)),clamp(0px,calc((480px - 100%) * 999),100%)),1fr));gap:16px">
+      {tiles.map((t) => (
+        <li style="background:#fff;border:1px dashed #9aa0ad;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:150px">
+          <span style="font-weight:800;font-size:13px;color:#c34209">{t.step}</span>
+          <span style="font-weight:700;color:#16233d;font-size:16px;line-height:1.35">{t.label}</span>
+          <span style="font:800 24px/1 var(--font-sans);color:#687185;margin-top:auto">Nog leeg</span>
+          <span style="font-size:13px;color:#4b5563">{t.note}</span>
+        </li>
+      ))}
+    </ul>
+    <p style="max-width:1120px;margin:20px auto 0;font-size:15px;font-variant-numeric:tabular-nums">Wel al live: deze pagina laadde in <strong style="color:#16233d"><span data-load>…</span> seconde</strong>. Gemeten in jouw browser.</p>
+  </section>
+  <section data-screen-label="03 Slot" style="background:#16233d;padding:clamp(56px,8vw,96px) 20px">
+    <div style="max-width:760px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center">
+      <h2 style="margin:0;font:800 clamp(30px,4.6vw,46px)/1.1 var(--font-sans);letter-spacing:-0.02em;color:#fff">Meet het zelf.</h2>
+      <p style="margin:20px 0 0;color:#d4d7de;font-size:18px">Vraag de scan aan en kijk hoe snel Sam reageert.</p>
+      <div style="margin-top:32px"><Btn variant="primary" href="/scan/" label="Vraag je gratis Aanvragen Scan aan" /></div>
+    </div>
+  </section>
+</main>
+</Base>

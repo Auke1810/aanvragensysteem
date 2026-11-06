@@ -1,0 +1,177 @@
+---
+import Base from '../../layouts/Base.astro';
+import { VAKKEN, R } from '../../config';
+const radio = 'display:flex;gap:10px;align-items:center;min-height:44px;padding:0 14px;border:1px solid #9aa0ad;border-radius:6px;color:#16233d;cursor:pointer';
+const radioIn = 'width:20px;height:20px;margin:0;accent-color:#16233d';
+const check = 'display:flex;gap:12px;align-items:flex-start;color:#16233d;cursor:pointer;min-height:44px';
+const checkIn = 'width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#16233d';
+const legend = 'font-weight:700;font-size:15px;color:#16233d;margin-bottom:8px';
+const opt = '<span style="font-weight:400;color:#4b5563">(optioneel)</span>';
+---
+<Base title="Gratis Aanvragen Scan aanvragen" description="Vraag de gratis Aanvragen Scan aan: een persoonlijke video van 5 minuten en een rapport van 1 pagina waarin je per stap ziet waar werk weglekt. Binnen 2 werkdagen." bg="#f2f3f7" footerBorder>
+<main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6;background:#f2f3f7">
+  <section data-screen-label="01 Scan" style="padding:clamp(40px,7vw,80px) 20px">
+    <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:48px;align-items:start">
+      <div>
+        <p style="margin:0 0 16px;font:700 13px/1.3 var(--font-sans);letter-spacing:.11em;text-transform:uppercase;color:#c34209">Gratis · binnen 2 werkdagen</p>
+        <h1 style="margin:0;font:800 clamp(32px,4.8vw,48px)/1.08 var(--font-sans);letter-spacing:-0.02em;color:#16233d;text-wrap:balance">Gratis Aanvragen Scan: zie per stap waar werk weglekt.</h1>
+        <h2 style="margin:32px 0 12px;font:700 19px/1.3 var(--font-sans);color:#16233d">Wat je krijgt: een check van alle zes stappen</h2>
+        <ul style="list-style:none;margin:0;padding:0;color:#16233d">
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">01</span><span><strong>Vindbaarheid</strong> op 3 zoektermen en in een AI-antwoord.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">02</span><span><strong>Je site op de telefoon.</strong> Snelheid, eerste indruk, reviews en foto's.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">03</span><span><strong>Hoe makkelijk contact is.</strong> Knoppen, formulier en WhatsApp.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">04</span><span><strong>Reactietest.</strong> Met jouw toestemming sturen we een proefaanvraag via je site en kijken we hoe snel en hoe je reageert. In de video zeggen we meteen dat die aanvraag van ons kwam.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">05</span><span><strong>Hoe je offertes opvolgt.</strong> Op basis van je antwoord in het formulier.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">06</span><span><strong>Wat je met oud-klanten doet.</strong> Ook op basis van je antwoord in het formulier.</span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">+</span><span><strong>Rekensom stille offertes.</strong></span></li>
+          <li style="padding:12px 0;border-top:1px solid var(--grey-200);border-bottom:1px solid var(--grey-200);display:flex;gap:12px"><span aria-hidden="true" style="color:#c34209;font-weight:800;font-size:14px;line-height:1.9;min-width:20px">+</span><span>Een <strong>persoonlijke video</strong> van ongeveer 5 minuten en een rapport van 1 pagina, binnen 2 werkdagen.</span></li>
+        </ul>
+        <p id="bron-regel" hidden style="margin:20px 0 0;font-size:15px">Je komt via <strong>oude offertes</strong>. In de scan kijk ik extra naar je oude offertes.</p>
+      </div>
+
+      <div id="scan" data-bedankt={R.bedankt} style="background:#fff;border:1px solid var(--grey-200);border-radius:12px;padding:clamp(20px,3vw,32px)">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
+          <p style="margin:0;font-weight:800;color:#16233d">Stap <span id="stap-nr">1</span> van 2</p>
+          <div aria-hidden="true" style="display:flex;gap:6px"><span style="width:40px;height:6px;border-radius:999px;background:#16233d"></span><span id="bar2" style="width:40px;height:6px;border-radius:999px;background:#e5e6f0"></span></div>
+        </div>
+
+        <form id="stap1" novalidate style="display:flex;flex-direction:column;gap:18px">
+          <p style="margin:0 0 4px;font:700 21px/1.3 var(--font-sans);color:#16233d">Je vak en je regio</p>
+          <div class="field">
+            <label for="f-vak" class="label">Je vak</label>
+            <select id="f-vak" name="vak" class="input">{VAKKEN.map((v) => <option value={v}>{v}</option>)}</select>
+          </div>
+          <div class="field">
+            <label for="f-plaats" class="label">Postcode of plaats</label>
+            <input id="f-plaats" name="plaats" class="input" autocomplete="postal-code" aria-describedby="regio-uitkomst" placeholder="bijv. 8911 of Gent">
+          </div>
+          <div id="regio-uitkomst" aria-live="polite">
+            <p data-r="vrij" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#e7f4ec;color:#17693f;font-weight:700">✓ Regio vrij. <span style="font-weight:400;color:#16233d">Met je scanaanvraag reserveer je de plek.</span></p>
+            <p data-r="bezet" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#fbf1dc;color:#6b4700;font-weight:700">Bezet. <span style="font-weight:400;color:#16233d">Je kunt de scan wel aanvragen. Dan zet ik je op de wachtlijst voor een regio ernaast.</span></p>
+            <p data-r="niet" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#f2f3f7;color:#16233d"><strong>Dit vak is nog niet actief.</strong> Voldoe je aan de criteria? Vraag de scan toch aan. Dan kijken we samen of het past.</p>
+            <p data-r="error" role="alert" hidden style="margin:0;color:#a3321c;font-weight:600">Vul je postcode of plaats in.</p>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Verder naar stap 2<span class="arr" aria-hidden="true">→</span></button>
+        </form>
+
+        <form id="stap2" novalidate hidden style="flex-direction:column;gap:16px">
+          <p style="margin:0 0 4px;font:700 21px/1.3 var(--font-sans);color:#16233d">Je gegevens</p>
+          <p style="margin:-8px 0 0;font-size:15px"><span id="samenvatting"></span> · <button type="button" id="terug" style="background:none;border:0;padding:0;color:#c34209;font:700 15px/1 var(--font-sans);text-decoration:underline;cursor:pointer">Wijzig</button></p>
+          <div id="fout2" role="alert" hidden style="padding:12px 14px;border-radius:8px;background:#fbe9e5;color:#7a2413;font-size:16px"><strong>Nog niet compleet.</strong> Vul in: <span id="foutlijst"></span>.</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px">
+            <div class="field"><label for="f-bedrijf" class="label">Bedrijfsnaam</label><input id="f-bedrijf" name="bedrijf" class="input" autocomplete="organization" maxlength="120"></div>
+            <div class="field"><label for="f-site" class="label">Website</label><input id="f-site" name="website" class="input" inputmode="url" autocomplete="url" placeholder="www.jouwbedrijf.nl" maxlength="200"></div>
+            <div class="field"><label for="f-naam" class="label">Voornaam</label><input id="f-naam" name="voornaam" class="input" autocomplete="given-name" maxlength="80"></div>
+            <div class="field"><label for="f-mobiel" class="label">Mobiel nummer</label><input id="f-mobiel" name="mobiel" type="tel" class="input" autocomplete="tel" placeholder="06 of +32" maxlength="30"></div>
+            <div class="field"><label for="f-mail" class="label">E-mail</label><input id="f-mail" name="email" type="email" class="input" autocomplete="email" maxlength="160"></div>
+            <div class="field"><label for="f-off" class="label">Offertes per jaar <Fragment set:html={opt} /></label><input id="f-off" name="offertes" class="input" inputmode="numeric" maxlength="20"></div>
+          </div>
+          <fieldset style="border:0;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:8px">
+            <legend style={legend}>Wat gebeurt er nu met een verstuurde offerte? <Fragment set:html={opt} /></legend>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              {['ik bel na', 'soms', 'nooit'].map((v) => <label style={radio}><input type="radio" name="offerte" value={v} style={radioIn}>{v[0].toUpperCase() + v.slice(1)}</label>)}
+            </div>
+          </fieldset>
+          <fieldset style="border:0;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:8px">
+            <legend style={legend}>Wat doe je nu met oud-klanten? <Fragment set:html={opt} /></legend>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              {['niets', 'soms iets', 'vast contact'].map((v) => <label style={radio}><input type="radio" name="oud" value={v} style={radioIn}>{v[0].toUpperCase() + v.slice(1)}</label>)}
+            </div>
+          </fieldset>
+          <fieldset style="border:0;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:12px">
+            <legend style={legend}>Toestemming (los aan te vinken)</legend>
+            <label style={check}><input type="checkbox" name="test" style={checkIn}>Je mag een proefaanvraag via mijn website sturen voor de reactietest</label>
+            <label style={check}><input type="checkbox" name="wa" style={checkIn}>Je mag me via WhatsApp berichten over deze scan</label>
+          </fieldset>
+          <!-- Honeypot tegen spambots: mensen zien dit veld niet -->
+          <div aria-hidden="true" style="position:absolute;left:-9999px"><label>Laat leeg<input name="bedrijfsnummer" tabindex="-1" autocomplete="off"></label></div>
+          <p id="verzendfout" role="alert" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#fbe9e5;color:#7a2413;font-size:16px">Versturen lukte niet. Probeer het opnieuw, of stuur een WhatsApp.</p>
+          <button type="submit" id="verstuur" class="btn btn-primary btn-full">Scan aanvragen<span class="arr" aria-hidden="true">→</span></button>
+          <p style="margin:0;text-align:center;font-size:15px">Kost niets. Geen verkooppraat in de video.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+</Base>
+
+<style>
+  #stap2:not([hidden]){display:flex}
+</style>
+
+<script>
+  import { checkRegio, insert, type RegioStatus } from '../../lib/db';
+  const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
+  const q = new URLSearchParams(location.search);
+  const bron = q.get('bron') || '';
+  if (bron === 'oude-offertes') $('bron-regel').hidden = false;
+
+  const s1 = $<HTMLFormElement>('stap1'), s2 = $<HTMLFormElement>('stap2');
+  const vak = $<HTMLSelectElement>('f-vak'), plaats = $<HTMLInputElement>('f-plaats');
+  if (q.get('vak')) vak.value = q.get('vak')!;
+  if (q.get('plaats')) plaats.value = q.get('plaats')!;
+
+  let regio: RegioStatus | null = null;
+  const showR = (k: string | null) => document.querySelectorAll<HTMLElement>('#regio-uitkomst [data-r]').forEach((el) => (el.hidden = el.dataset.r !== k));
+  let timer: number | undefined;
+  const runCheck = async () => {
+    const p = plaats.value.trim();
+    if (!p) { regio = null; return showR(null); }
+    regio = await checkRegio(vak.value, p);
+    showR(regio);
+  };
+  const debounced = () => { clearTimeout(timer); timer = window.setTimeout(runCheck, 350); };
+  plaats.addEventListener('input', debounced);
+  vak.addEventListener('change', runCheck);
+  if (plaats.value) runCheck();
+
+  const setStep = (n: 1 | 2) => {
+    s1.hidden = n !== 1; s2.hidden = n !== 2;
+    $('stap-nr').textContent = String(n);
+    $('bar2').style.background = n === 2 ? '#16233d' : '#e5e6f0';
+    $('scan').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  s1.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!plaats.value.trim()) { plaats.setAttribute('aria-invalid', 'true'); return showR('error'); }
+    plaats.removeAttribute('aria-invalid');
+    if (!regio) await runCheck();
+    $('samenvatting').textContent = `${vak.value} · ${plaats.value.trim()}`;
+    setStep(2);
+    $<HTMLInputElement>('f-bedrijf').focus({ preventScroll: true });
+  });
+  $('terug').addEventListener('click', () => setStep(1));
+
+  const REQ: Record<string, string> = { bedrijf: 'bedrijfsnaam', voornaam: 'voornaam', mobiel: 'mobiel nummer', email: 'e-mail' };
+  s2.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(s2);
+    const val = (k: string) => String(fd.get(k) ?? '').trim();
+    if (val('bedrijfsnummer')) return; // bot
+    const missing = Object.keys(REQ).filter((k) => !val(k) || (k === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val(k))));
+    Object.keys(REQ).forEach((k) => {
+      const el = s2.elements.namedItem(k) as HTMLInputElement;
+      if (missing.includes(k)) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+    });
+    if (missing.length) {
+      $('foutlijst').textContent = missing.map((k) => REQ[k]).join(', ');
+      $('fout2').hidden = false;
+      return;
+    }
+    $('fout2').hidden = true;
+    const btn = $<HTMLButtonElement>('verstuur');
+    btn.disabled = true;
+    const wa = fd.get('wa') === 'on';
+    const ok = await insert('scan_aanvragen', {
+      vak: vak.value, plaats: plaats.value.trim(), regio_status: regio,
+      bedrijf: val('bedrijf'), website: val('website') || null, voornaam: val('voornaam'),
+      mobiel: val('mobiel'), email: val('email'), offertes_per_jaar: val('offertes') || null,
+      offerte_opvolging: val('offerte') || null, oud_klanten: val('oud') || null,
+      toestemming_proefaanvraag: fd.get('test') === 'on', toestemming_whatsapp: wa,
+      bron: bron || null
+    });
+    if (!ok) { btn.disabled = false; $('verzendfout').hidden = false; return; }
+    location.href = $('scan').dataset.bedankt + (wa ? '' : '?kanaal=email');
+  });
+</script>

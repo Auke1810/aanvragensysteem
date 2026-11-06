@@ -29,7 +29,6 @@ De pagina's werken zonder database. Voor de formulieren en de regiocheck heb je 
 | `src/server/` | Serverkant: databaseverbinding, invoercontrole, spamlimiet, regiocheck-query. Nooit importeren in code die in de browser draait |
 | `public/` | Bestanden die ongewijzigd online gaan: `.htaccess`, `robots.txt`, `llms.txt`, favicon |
 | `db/001_init.mysql.sql` | Het databaseschema voor MySQL 8 of MariaDB 10.5 en nieuwer |
-| `supabase/001_init.sql` | Het oude Postgres-schema van Supabase. Bewaren tot de test op Hostinger geslaagd is |
 
 ## Database (MySQL)
 

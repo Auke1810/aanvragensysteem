@@ -1,11 +1,10 @@
 -- Schema voor aanvragensysteem.nl in MySQL 8 of MariaDB 10.5 en nieuwer.
--- Zelfde tabel- en kolomnamen als supabase/001_init.sql.
 --
 -- Gebruik: maak in hPanel een database en een gebruiker aan, open phpMyAdmin,
 -- kies die database en importeer dit bestand. Er staat bewust geen CREATE DATABASE
 -- of USE in: je kiest de database zelf.
 --
--- Verschillen met Postgres (Supabase):
+-- Ontwerpkeuzes voor MySQL (in vergelijking met Postgres):
 --  * uuid: CHAR(36). De app maakt de uuid zelf (crypto.randomUUID), zodat het schema
 --    op elke MySQL- of MariaDB-versie werkt.
 --  * boolean: TINYINT(1), 0 of 1.

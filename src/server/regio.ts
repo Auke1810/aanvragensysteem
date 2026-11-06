@@ -1,4 +1,4 @@
-// Regiocheck: dezelfde logica als de Postgres-functie check_regio in supabase/001_init.sql.
+// Regiocheck: bepaalt of een regio vrij, bezet of niet actief is.
 //  * vak niet actief of onbekend: 'niet'
 //  * plaats of postcode begint met een bezette regio van dat vak: 'bezet'
 //  * anders: 'vrij'

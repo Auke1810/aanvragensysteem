@@ -37,7 +37,7 @@ const ld = [org, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])]
     <title>{fullTitle}</title>
     <link rel="preload" href={figtreeLatin} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noindex && <link rel="canonical" href={canonical} />}
     {noindex && <meta name="robots" content="noindex" />}
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="nl_NL" />

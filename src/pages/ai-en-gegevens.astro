@@ -1,0 +1,32 @@
+---
+import Tekst from '../layouts/Tekst.astro';
+import { SITE, R } from '../config';
+---
+<Tekst title="AI en gegevens" description="Sam is een AI-assistent. Zo werkt Sam, wat Sam wel en niet doet en hoe je stopt of een mens spreekt." bijgewerkt="6 november 2026" intro="Sam is geen mens. Sam is een AI-assistent die de eerste vragen stelt, zodat jij snel antwoord krijgt en een mens daarna voorbereid kan terugbellen.">
+
+  <h2>Wat Sam doet</h2>
+  <ul>
+    <li>Sam stuurt je een WhatsApp als je een scan of demo aanvraagt en daarvoor toestemming geeft.</li>
+    <li>Sam zegt in het eerste bericht dat Sam een AI is.</li>
+    <li>Sam stelt twee of drie korte vragen over je klus of je bedrijf.</li>
+    <li>Sam stelt een terugbelmoment voor en legt dat vast in een agenda.</li>
+    <li>Na het gesprek krijgt een mens een samenvatting.</li>
+  </ul>
+
+  <h2>Wat Sam niet doet</h2>
+  <ul>
+    <li>Sam noemt geen prijzen en doet geen toezeggingen.</li>
+    <li>Sam sluit geen overeenkomst en neemt geen besluit over jou.</li>
+    <li>Sam stuurt geen berichten als je geen toestemming gaf. Dan sturen we binnen 5 minuten een e-mail.</li>
+  </ul>
+
+  <h2>Een mens spreken of stoppen</h2>
+  <p>Wil je liever een mens? Bel <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a> of mail <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Wil je geen berichten meer? Stuur STOP in het gesprek. Daarna krijg je nooit meer iets van ons via WhatsApp.</p>
+
+  <h2>Welke gegevens Sam gebruikt</h2>
+  <p>Sam werkt met je mobiele nummer, je voornaam, je berichten in het gesprek en wat je in het formulier invulde. Die gegevens worden opgeslagen, zodat een mens het gesprek kan oppakken. Hoe lang we ze bewaren en met wie we ze delen, staat in de <a href={R.privacy}>privacyverklaring</a>.</p>
+  <p>Voor de gesprekken gebruiken we de AI-modellen Claude Sonnet en Claude Haiku van Anthropic. De berichten van het gesprek gaan daarvoor naar Anthropic. Het gesprek zelf loopt via WhatsApp van Meta en de automatisering draait op een eigen server in Nederland.</p>
+
+  <h2>Je rechten</h2>
+  <p>Je kunt altijd vragen om inzage, correctie of verwijdering van je gegevens, ook die uit een gesprek met Sam. Zie de <a href={R.privacy}>privacyverklaring</a> voor hoe dat werkt.</p>
+</Tekst>

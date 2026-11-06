@@ -33,12 +33,12 @@ const fl = 'display:inline-block;padding:6px 0;color:#d4d7de;font-size:16px';
     </nav>
   </div>
   <div style="max-width:1120px;margin:0 auto;padding:24px 20px 32px;border-top:1px solid rgba(255,255,255,.14);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:14px;line-height:1.6">
-    <div>{SITE.owner} · Franse onderneming · SIRET {SITE.siret} · Hosting in de EU: {SITE.hosting}</div>
+    <div>Handelsnaam van {SITE.handelsnaamVan} · KvK {SITE.kvk} · BTW-id {SITE.btwId} · {SITE.address} · Hosting in Nederland: {SITE.hosting}</div>
     <div style="display:flex;flex-wrap:wrap;gap:4px 20px">
-      <span>Privacy (volgt)</span>
-      <span>Voorwaarden (volgt)</span>
-      <span>AI en gegevens (volgt)</span>
-      <span>Wettelijke vermeldingen (volgt)</span>
+      <a href={R.privacy} class="h-white" style="color:#d4d7de">Privacy</a>
+      <a href={R.voorwaarden} class="h-white" style="color:#d4d7de">Voorwaarden</a>
+      <a href={R.aiGegevens} class="h-white" style="color:#d4d7de">AI en gegevens</a>
+      <a href={R.wettelijk} class="h-white" style="color:#d4d7de">Wettelijke vermeldingen</a>
     </div>
     <div style="width:100%;display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums"><span aria-hidden="true" style="width:8px;height:8px;border-radius:999px;background:#b9bdc5"></span><span>Deze pagina laadde in <span data-load>…</span> seconde. Live gemeten in jouw browser.</span></div>
   </div>

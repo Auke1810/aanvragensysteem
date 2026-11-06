@@ -8,7 +8,7 @@ const checkIn = 'width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:#1
 const legend = 'font-weight:700;font-size:15px;color:#16233d;margin-bottom:8px';
 const opt = '<span style="font-weight:400;color:#4b5563">(optioneel)</span>';
 ---
-<Base title="Gratis Aanvragen Scan aanvragen" description="Vraag de gratis Aanvragen Scan aan: een persoonlijke video van 5 minuten en een rapport van 1 pagina waarin je per stap ziet waar werk weglekt. Binnen 2 werkdagen." bg="#f2f3f7" footerBorder>
+<Base title="Gratis Aanvragen Scan aanvragen" description="Vraag de gratis Aanvragen Scan aan: een persoonlijke video van 5 minuten en een rapport van 1 pagina over waar je werk laat liggen. Binnen 2 werkdagen." bg="#f2f3f7" footerBorder>
 <main id="hoofdinhoud" style="font-family:var(--font-sans);color:#4b5563;font-size:17px;line-height:1.6;background:#f2f3f7">
   <section data-screen-label="01 Scan" style="padding:clamp(40px,7vw,80px) 20px">
     <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:48px;align-items:start">
@@ -51,7 +51,7 @@ const opt = '<span style="font-weight:400;color:#4b5563">(optioneel)</span>';
             <p data-r="niet" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#f2f3f7;color:#16233d"><strong>Dit vak is nog niet actief.</strong> Voldoe je aan de criteria? Vraag de scan toch aan. Dan kijken we samen of het past.</p>
             <p data-r="error" role="alert" hidden style="margin:0;color:#a3321c;font-weight:600">Vul je postcode of plaats in.</p>
           </div>
-          <button type="submit" class="btn btn-primary btn-full">Verder naar stap 2<span class="arr" aria-hidden="true">→</span></button>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start">Verder naar stap 2<span class="arr" aria-hidden="true">→</span></button>
         </form>
 
         <form id="stap2" novalidate hidden style="flex-direction:column;gap:16px">
@@ -86,8 +86,9 @@ const opt = '<span style="font-weight:400;color:#4b5563">(optioneel)</span>';
           <!-- Honeypot tegen spambots: mensen zien dit veld niet -->
           <div aria-hidden="true" style="position:absolute;left:-9999px"><label>Laat leeg<input name="bedrijfsnummer" tabindex="-1" autocomplete="off"></label></div>
           <p id="verzendfout" role="alert" hidden style="margin:0;padding:12px 14px;border-radius:8px;background:#fbe9e5;color:#7a2413;font-size:16px">Versturen lukte niet. Probeer het opnieuw, of stuur een WhatsApp.</p>
-          <button type="submit" id="verstuur" class="btn btn-primary btn-full">Scan aanvragen<span class="arr" aria-hidden="true">→</span></button>
+          <button type="submit" id="verstuur" class="btn btn-primary" style="align-self:flex-start">Scan aanvragen<span class="arr" aria-hidden="true">→</span></button>
           <p style="margin:0;text-align:center;font-size:15px">Kost niets. Geen verkooppraat in de video.</p>
+          <p style="margin:0;text-align:center;font-size:15px">Wat we met je gegevens doen, lees je in de <a href="/privacy/">privacyverklaring</a>.</p>
         </form>
       </div>
     </div>

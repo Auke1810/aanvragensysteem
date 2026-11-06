@@ -57,7 +57,7 @@ img{max-width:100%;height:auto}
 .btn-secondary.on-dark:hover{background:rgba(255,255,255,.08);color:#fff}
 .btn-dark{background:#16233d;color:#fff}
 .btn-dark:hover{background:#0f1930;color:#fff}
-.btn-small{font-size:15px;min-height:44px;padding:0 16px;white-space:nowrap}
+.btn-small{font-size:15px;min-height:44px;padding:0 16px}
 .btn-full{width:100%}
 .btn[disabled]{opacity:.6;pointer-events:none}
 

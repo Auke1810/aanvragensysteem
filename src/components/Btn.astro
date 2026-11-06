@@ -15,8 +15,10 @@ const arrow = Astro.props.arrow ?? variant !== 'dark';
 const cls = ['btn', `btn-${variant}`, onDark && 'on-dark', full && 'btn-full', small && 'btn-small'].filter(Boolean).join(' ');
 const external = href?.startsWith('http');
 ---
+<div><span style="display:inline-flex;max-width:100%">
 {href ? (
   <a href={href} class={cls} id={id} {...(external ? { rel: 'noopener', target: '_blank' } : {})}>{label}{arrow && <span class="arr" aria-hidden="true">→</span>}</a>
 ) : (
   <button type={type} class={cls} id={id}>{label}{arrow && <span class="arr" aria-hidden="true">→</span>}</button>
 )}
+</span></div>

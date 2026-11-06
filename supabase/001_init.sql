@@ -1,5 +1,5 @@
 -- Schema van Supabase-project "aanvragensysteem" (regio eu-central-1, Frankfurt).
--- Al toegepast op 6 november 2026. Bewaard ter referentie en voor een nieuwe omgeving.
+-- Toegepast op 6 november 2026 in project keonxybrquukpioocsgw. Bewaard ter referentie en voor een nieuwe omgeving.
 
 create table public.vakken (
   naam text primary key,

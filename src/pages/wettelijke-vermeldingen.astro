@@ -1,0 +1,39 @@
+---
+import Tekst from '../layouts/Tekst.astro';
+import { SITE, R } from '../config';
+---
+<Tekst title="Wettelijke vermeldingen" description="Bedrijfsgegevens, KvK- en BTW-nummer van Het Aanvragensysteem, een handelsnaam van aukemarketing." bijgewerkt="6 november 2026">
+
+  <h2>Wie wij zijn</h2>
+  <table>
+    <tbody>
+      <tr><th>Handelsnaam</th><td>Het Aanvragensysteem</td></tr>
+      <tr><th>Onderneming</th><td>{SITE.handelsnaamVan}</td></tr>
+      <tr><th>Eigenaar</th><td>{SITE.owner}</td></tr>
+      <tr><th>Adres</th><td>{SITE.address}</td></tr>
+      <tr><th>Telefoon</th><td><a href={SITE.phoneHref}>{SITE.phoneDisplay}</a></td></tr>
+      <tr><th>E-mail</th><td><a href={`mailto:${SITE.email}`}>{SITE.email}</a></td></tr>
+      <tr><th>KvK-nummer</th><td>{SITE.kvk}</td></tr>
+      <tr><th>BTW-id</th><td>{SITE.btwId}</td></tr>
+      <tr><th>Website</th><td>{SITE.domain}</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Voor wie deze site is</h2>
+  <p>Deze site is bedoeld voor ondernemers en bedrijven. Het Aanvragensysteem levert zijn diensten niet aan consumenten.</p>
+
+  <h2>Auteursrecht</h2>
+  <p>De teksten, ontwerpen en beelden op deze site zijn van ons. Wil je iets overnemen? Vraag het eerst. Een link naar een pagina mag altijd.</p>
+
+  <h2>Juistheid van de informatie</h2>
+  <p>We maken de site met zorg, maar kunnen niet garanderen dat alles altijd volledig en actueel is. Aan de site kun je geen rechten ontlenen. Wat telt, staat in de overeenkomst die we samen sluiten. Verwachte resultaten zijn geen belofte, behalve wat in de <a href="/garantie/">garantie</a> staat.</p>
+
+  <h2>AI-vermelding</h2>
+  <p>Op deze site en in WhatsApp werkt een AI-assistent, Sam. Sam zegt altijd dat het een AI is. Meer daarover op <a href={R.aiGegevens}>AI en gegevens</a>.</p>
+
+  <h2>Privacy en voorwaarden</h2>
+  <p>Hoe we met gegevens omgaan, lees je in de <a href={R.privacy}>privacyverklaring</a>. Onze algemene voorwaarden staan op <a href={R.voorwaarden}>Voorwaarden</a>.</p>
+
+  <h2>Klachten</h2>
+  <p>Ben je ergens niet tevreden over? Mail of bel ons. We reageren zo snel mogelijk en zoeken samen een oplossing.</p>
+</Tekst>

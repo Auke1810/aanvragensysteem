@@ -1,6 +1,6 @@
 # aanvragensysteem.nl
 
-De website van Het Aanvragensysteem, gebouwd met [Astro](https://astro.build) als statische site. Het ontwerp komt uit Claude Design, de inhoud uit de PRD van 30 september 2026.
+De website van Het Aanvragensysteem, gebouwd met [Astro](https://astro.build). De pagina's worden vooraf gebouwd als platte HTML. Alleen de formulier-endpoints in `src/pages/api/` draaien op een Node-server, met MySQL als database. Het ontwerp komt uit Claude Design, de inhoud uit de PRD van 30 september 2026.
 
 ## Lokaal draaien
 
@@ -9,9 +9,11 @@ Je hebt Node.js 22 of nieuwer nodig.
 ```bash
 npm install
 npm run dev        # ontwikkelserver op http://localhost:4321
-npm run build      # maakt de echte site in dist/
-npm run preview    # bekijk de gebouwde site lokaal
+npm run build      # maakt de site in dist/ (dist/client = pagina's, dist/server/entry.mjs = Node-app)
+node dist/server/entry.mjs   # start de gebouwde site, met de endpoints, op http://localhost:4321
 ```
+
+De pagina's werken zonder database. Voor de formulieren en de regiocheck heb je een lokale MySQL of MariaDB nodig: maak een lege database, importeer `db/001_init.mysql.sql`, kopieer `.env.example` naar `.env` en vul de `DB_`-gegevens in. Zonder database antwoorden de endpoints met een foutmelding en toont de regiocheck de terugval (alleen dakdekkers vrij).
 
 ## Structuur
 
@@ -22,38 +24,39 @@ npm run preview    # bekijk de gebouwde site lokaal
 | `src/layouts/Base.astro` | De HTML-basis van elke pagina: titel, meta, schema, header en footer |
 | `src/styles/` | Designtokens (kleuren, typografie) en algemene stijlen |
 | `src/config.ts` | Contactgegevens, Founding Partner-teller, vakken en routes. **Hier vul je de placeholders in** |
-| `src/lib/db.ts` | De koppeling met Supabase (alleen `fetch`, geen extra bibliotheek) |
+| `src/lib/db.ts` | Draait in de browser en roept alleen de eigen endpoints in `/api/` aan (alleen `fetch`) |
+| `src/pages/api/` | De endpoints: `scan`, `regiocheck`, `wachtlijst`, `demo`. Draaien op de server |
+| `src/server/` | Serverkant: databaseverbinding, invoercontrole, spamlimiet, regiocheck-query. Nooit importeren in code die in de browser draait |
 | `public/` | Bestanden die ongewijzigd online gaan: `.htaccess`, `robots.txt`, `llms.txt`, favicon |
-| `supabase/001_init.sql` | Het databaseschema |
+| `db/001_init.mysql.sql` | Het databaseschema voor MySQL 8 of MariaDB 10.5 en nieuwer |
+| `supabase/001_init.sql` | Het oude Postgres-schema van Supabase. Bewaren tot de test op Hostinger geslaagd is |
 
-## Database (Supabase)
+## Database (MySQL)
 
-Project `aanvragensysteem` in Frankfurt (eu-central-1). Tabellen:
+Schema: `db/001_init.mysql.sql`. Importeer het in phpMyAdmin in de database die je in hPanel hebt gemaakt. Het mag vaker, bestaande tabellen en gegevens blijven staan. Tabellen:
 
 - `scan_aanvragen`: elke scanaanvraag uit het formulier op /scan/
 - `wachtlijst`: e-mailadressen uit de regiocheck (regio bezet of vak nog niet actief)
 - `demo_aanvragen`: telefoonnummers uit de demo "Speel zelf de klant"
 - `vakken`: welke vakken actief zijn (nu alleen Dakdekkers)
-- `bezette_regios`: met de hand bijhouden welke regio per vak bezet is (bijv. vak Dakdekkers, regio `8911`)
-- `instellingen`: o.a. `founding_partners_over`
+- `bezette_regios`: met de hand bijhouden welke regio per vak bezet is (bijv. vak Dakdekkers, regio `8911`). Een bezoeker is bezet als zijn postcode of plaats met deze regio begint
+- `instellingen`: `founding_partners_over` (de site leest dit nog niet; de teller staat in `src/config.ts`)
 
-Bezoekers kunnen alleen toevoegen, nooit lezen (Row Level Security). De regiocheck gebruikt de functie `check_regio`, die alleen vrij, bezet of niet teruggeeft.
+Bezoekers praten nooit rechtstreeks met de database. De endpoints controleren de invoer, gebruiken prepared statements en slaan alleen op. Alle tijden staan in UTC.
 
-De publieke sleutels staan in `.env` (zie `.env.example`).
+**Omgevingsvariabelen** (hPanel op Hostinger, `.env` lokaal, zie `.env.example`): `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`. Optioneel: `DB_SSL` en `TRUST_PROXY_HOPS`. Er staan geen geheimen in de code.
 
-**Volgende stap, Sam koppelen:** maak in Supabase een Database Webhook op `insert` in `scan_aanvragen` en `demo_aanvragen` naar een n8n-workflow die het WhatsApp-bericht verstuurt.
+**Spamlimiet** (in `src/server/limiet.ts`, in het geheugen, niets wordt bewaard): per IP maximaal 5 scans per uur, 5 wachtlijstregels per uur, 3 demo's per uur en 60 regiochecks per 10 minuten. Per mobiel nummer maximaal 2 scans en 1 demo per 24 uur. Het veld `bedrijfsnummer` is de honeypot: wie dat invult krijgt "gelukt" terug en er wordt niets opgeslagen. `TRUST_PROXY_HOPS` (standaard 1) is het aantal proxies voor de Node-app, nodig om het echte IP van de bezoeker te lezen.
+
+**Volgende stap, Sam koppelen:** een webhook of een n8n-workflow die nieuwe rijen in `scan_aanvragen` en `demo_aanvragen` oppikt en het WhatsApp-bericht verstuurt. Dat is een volgend blok.
 
 ## Online zetten op Hostinger
 
-De site is statisch, dus elk Hostinger-pakket werkt.
+De site draait als Node.js-app op het Hostinger-pakket (Astro met de Node-adapter, `mode: standalone`). Instellingen in hPanel volgens de Hostinger-documentatie voor Astro: type `astro`, build-script `build`, output `dist`, entry file `server/entry.mjs`, Node 22.23.4 of nieuwer. Online via de GitHub-koppeling van Hostinger, met een privé-repository. Databasegegevens zet je in hPanel als omgevingsvariabelen. Het stappenplan (zie de PRD) beschrijft de volgorde.
 
-**Aanbevolen: automatisch via GitHub.** Bij elke push naar `main` bouwt GitHub de site en zet `dist/` via FTP in `public_html` (`.github/workflows/deploy.yml`). Eenmalig instellen:
+`.github/workflows/deploy.yml` (FTP-upload van een statische map) past hier niet meer bij en wordt in een volgend blok vervangen of verwijderd.
 
-1. Push deze map naar een (privé) GitHub-repository.
-2. Zet in GitHub onder Settings › Secrets and variables › Actions deze secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` (uit hPanel › Bestanden › FTP-accounts), `PUBLIC_SUPABASE_URL` en `PUBLIC_SUPABASE_KEY` (uit `.env`).
-3. Push of start de workflow met de hand onder Actions.
-
-**Met de hand:** `npm run build` en upload de inhoud van `dist/` naar `public_html` via de bestandsbeheerder of FTP.
+`public/.htaccess` hoort bij een statische Apache-site. Of Hostinger het ook voor een Node.js-app gebruikt (https-redirect, www-redirect, cacheregels), moet nog getest worden op Hostinger.
 
 Domeinen: zet aanvragensysteem.be en aanvraagsysteem.nl in hPanel als doorverwijzing naar https://aanvragensysteem.nl, en oudeoffertes.nl naar https://aanvragensysteem.nl/oude-offertes/.
 

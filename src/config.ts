@@ -5,29 +5,26 @@ export const SITE = {
   domain: 'aanvragensysteem.nl',
   url: 'https://aanvragensysteem.nl',
   owner: 'Auke Jongbloed',
-  // Placeholders uit het ontwerp: vervangen door de echte gegevens
-  phoneDisplay: '+31 85 000 00 00',
-  phoneHref: 'tel:+31850000000',
+  // Contactgegevens. WhatsApp en werktijden zijn nog niet bekend: de wa.me-link hieronder is nog het ontwerpnummer.
+  phoneDisplay: '+31 6 19 63 92 62',
+  phoneHref: 'tel:+31619639262',
   whatsapp: 'https://wa.me/31850000000',
   email: 'auke@aanvragensysteem.nl',
-  siret: '[nog invullen]',
-  hosting: 'Hostinger (EU)',
+  address: 'Emmastraat 16, 3134 CL Vlaardingen, Nederland',
+  handelsnaamVan: 'aukemarketing',
+  kvk: '51006197',
+  btwId: 'NL002162452B85',
+  hosting: 'Hostinger',
   // Startmaand van de eigen metingen
   meetingSinds: 'oktober 2026'
 };
 
-// Founding Partners: met de hand bijwerken (ook te zetten via Supabase-tabel instellingen)
+// Founding Partners: met de hand bijwerken. De site leest dit getal hier, niet uit de database.
 export const FP_LEFT = 5;
 export const FP_TOTAL = 5;
 
 export const VAKKEN = ['Dakdekkers', 'Hoveniers', 'Renovatie en aannemers', 'Installateurs', 'Kozijnen en zonwering', 'Ander vak'];
 export const ACTIEVE_VAKKEN = ['Dakdekkers'];
-
-// Supabase (publieke sleutel, veilig in de browser door Row Level Security)
-export const SUPABASE = {
-  url: import.meta.env.PUBLIC_SUPABASE_URL ?? '',
-  key: import.meta.env.PUBLIC_SUPABASE_KEY ?? ''
-};
 
 // Routes, gelijk aan de URL's in de PRD
 export const R = {
@@ -46,5 +43,9 @@ export const R = {
   zoWerkt: '/zo-werkt-deze-site/',
   resultaten: '/resultaten/',
   vragen: '/vragen/',
-  contact: '/contact/'
+  contact: '/contact/',
+  privacy: '/privacy/',
+  voorwaarden: '/voorwaarden/',
+  aiGegevens: '/ai-en-gegevens/',
+  wettelijk: '/wettelijke-vermeldingen/'
 };

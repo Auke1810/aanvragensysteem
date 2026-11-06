@@ -2,7 +2,7 @@
 // De bezoeker speelt de klant, een echt AI-model (Claude) antwoordt als Sam. De server bewaart het gesprek niet.
 import { antwoord, endpoint, nietToegestaan } from '../../server/http';
 import { LIMIETEN, ruimte, tel } from '../../server/limiet';
-import { vraagSam } from '../../server/sam';
+import { SamNietBeschikbaar, vraagSam } from '../../server/sam';
 import { valideerSam } from '../../server/valideer';
 
 export const prerender = false;
@@ -21,7 +21,8 @@ export const POST = endpoint({
       const u = await vraagSam(v.waarde.vak, v.waarde.beurten);
       return antwoord(200, { ok: true, ...u });
     } catch (e) {
-      console.error(`[api/sam] fout: ${(e as Error).name}`);
+      const r = e instanceof SamNietBeschikbaar ? e.message : (e as Error).name;
+      console.error(`[api/sam] fout: ${r}`);
       return antwoord(503, { ok: false, fout: 'niet_beschikbaar' });
     }
   }

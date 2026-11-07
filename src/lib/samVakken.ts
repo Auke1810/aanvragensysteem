@@ -33,7 +33,7 @@ export type Beurt = { van: 'klant' | 'sam'; tekst: string };
  * Het model schrijft dit bericht niet, zodat de AI-vermelding er altijd staat en altijd gelijk luidt.
  */
 export const begroeting = (bedrijf: string) =>
-  `Overigens, ik ben Sam, de digitale assistent van ${bedrijf}. Ik ben een AI. Bedankt voor je aanvraag.`;
+  `Overigens, ik ben Sam, de AI-assistent van ${bedrijf}. Bedankt voor je aanvraag.`;
 
 /** Een gesprek duurt hooguit zoveel berichten van de bezoeker, de aanvraag meegeteld. */
 export const MAX_KLANT_BERICHTEN = 8;

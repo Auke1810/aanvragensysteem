@@ -85,7 +85,7 @@ export const OPVOLGING = ['ik bel na', 'soms', 'nooit'] as const;
 export const OUD_KLANTEN = ['niets', 'soms iets', 'vast contact'] as const;
 
 export type Scan = {
-  vak: string; plaats: string; bedrijf: string; website: string | null; voornaam: string; mobiel: string; email: string;
+  vak: string; plaats: string; bedrijf: string | null; website: string | null; voornaam: string; mobiel: string; email: string;
   offertes_per_jaar: string | null; offerte_opvolging: string | null; oud_klanten: string | null;
   toestemming_proefaanvraag: boolean; toestemming_whatsapp: boolean; bron: string | null;
 };
@@ -93,7 +93,7 @@ export function valideerScan(data: Record<string, unknown>): Uitkomst<Scan> {
   const fouten: Fouten = {};
   const v = vak(data, fouten);
   const plaats = tekst(data, 'plaats', { max: 80, verplicht: true }, fouten);
-  const bedrijf = tekst(data, 'bedrijf', { max: 120, verplicht: true }, fouten);
+  const bedrijf = tekst(data, 'bedrijf', { max: 120 }, fouten);
   let website = tekst(data, 'website', { max: 200 }, fouten);
   if (website !== null && (/\s/.test(website) || GEVAARLIJK_SCHEMA.test(website))) { fouten.website = 'ongeldig'; website = null; }
   const voornaam = tekst(data, 'voornaam', { max: 80, verplicht: true }, fouten);
@@ -108,7 +108,7 @@ export function valideerScan(data: Record<string, unknown>): Uitkomst<Scan> {
   const bronRuw = typeof data.bron === 'string' ? data.bron.trim() : '';
   const bron = BRON.test(bronRuw) ? bronRuw : null;
   return klaar(fouten, {
-    vak: v ?? '', plaats: plaats ?? '', bedrijf: bedrijf ?? '', website, voornaam: voornaam ?? '', mobiel: m ?? '', email: mail ?? '',
+    vak: v ?? '', plaats: plaats ?? '', bedrijf, website, voornaam: voornaam ?? '', mobiel: m ?? '', email: mail ?? '',
     offertes_per_jaar: offertes, offerte_opvolging: opvolging, oud_klanten: oud, toestemming_proefaanvraag: proef, toestemming_whatsapp: wa, bron
   });
 }

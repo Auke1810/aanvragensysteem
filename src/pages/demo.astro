@@ -12,6 +12,7 @@ const voorbeeld = (vak: string, t = '21:04', t1 = '21:05') => {
   return [
     { sys: true, text: t + ' · Aanvraag via de website van ' + i.bedrijf },
     { klant: true, text: i.voorbeeld, time: t },
+    { sam: true, text: i.eersteReactie, time: t1 },
     { sam: true, text: begroeting(i.bedrijf), time: t1 }
   ];
 };
@@ -84,7 +85,7 @@ const voorbeeld = (vak: string, t = '21:04', t1 = '21:05') => {
 
 <script>
   import { samAntwoord, type SamBeurt } from '../lib/db';
-  type Info = { bedrijf: string; eigenaar: string; voorbeeld: string; begroeting: string };
+  type Info = { bedrijf: string; eigenaar: string; voorbeeld: string; eersteReactie: string; begroeting: string };
   const DATA = JSON.parse(document.getElementById('demo-data')!.textContent!) as Record<string, Info>;
   const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
   const phone = $('demo-phone');
@@ -121,6 +122,7 @@ const voorbeeld = (vak: string, t = '21:04', t1 = '21:05') => {
     box.replaceChildren();
     bubble('m-sys', '21:04 · Aanvraag via de website van ' + DATA[v].bedrijf);
     bubble('m-klant', DATA[v].voorbeeld, '21:04');
+    bubble('m-sam', DATA[v].eersteReactie, '21:05');
     bubble('m-sam', DATA[v].begroeting, '21:05');
     kop(v, '21:04', '21:05');
     box.scrollTop = 0;
@@ -148,22 +150,22 @@ const voorbeeld = (vak: string, t = '21:04', t1 = '21:05') => {
   async function samAan(mijn: number, v: string, eerste: boolean) {
     bezig = true; invoer(false); typt(true);
     const info = DATA[v];
-    const verzoek = samAntwoord(v, beurten); // meteen starten, de wachttijd hieronder loopt ernaast
-    if (eerste) {
-      await wacht(900);
-      if (mijn !== sessie) return;
-      typt(false);
-      const tg = hm();
-      bubble('m-sam', info.begroeting, tg);
-      klok.uit.textContent = tg;
-      typt(true);
-    }
-    const [r] = await Promise.all([verzoek, wacht(eerste ? 700 : 900)]);
+    const [r] = await Promise.all([samAntwoord(v, beurten), wacht(eerste ? 1300 : 900)]);
     if (mijn !== sessie) return;
     typt(false);
     if (!r.ok) { bubble('m-sys', FOUTEN[r.fout]); chat.hidden = true; return; }
-    bubble('m-sam', r.bericht, hm());
+    const tg = hm();
+    bubble('m-sam', r.bericht, tg);
     beurten.push({ van: 'sam', tekst: r.bericht });
+    if (eerste) {
+      // Sam stelt zich pas voor nadat hij op de aanvraag heeft gereageerd. Vaste tekst, niet van het model.
+      klok.uit.textContent = tg;
+      typt(true);
+      await wacht(900);
+      if (mijn !== sessie) return;
+      typt(false);
+      bubble('m-sam', info.begroeting, hm());
+    }
     if (r.afgerond) { klaar(info, r.samenvatting); return; }
     bezig = false; invoer(true); chatIn.focus({ preventScroll: true });
   }
